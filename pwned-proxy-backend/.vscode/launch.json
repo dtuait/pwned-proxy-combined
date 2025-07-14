@@ -1,0 +1,48 @@
+{
+    "configurations": [
+        {
+            "name": "Python: Current File",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "ServerLive: localhost_debug_true_settings",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/app-main/manage.py",
+            "args": [
+                "runserver",
+                "0.0.0.0:3000",
+                "--settings",
+                "pwned_proxy.localhost_debug_true_settings"
+            ],
+            "django": true,
+            "justMyCode": true
+        },
+        {
+            "name": "ServerLive: localhost_production_settings",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/app-main/manage.py",
+            "args": [
+                "runserver",
+                "0.0.0.0:8000",
+                "--settings",
+                "pwned_proxy.localhost_production_settings"
+            ],
+            "django": true,
+            "justMyCode": true
+        },
+        {
+            "name": "Browser: admin localhost",
+            "runtimeExecutable": "C:\\Program Files\\chromium\\chrome-win\\chrome.exe",
+            "request": "launch",
+            "type": "msedge",
+            "url": "http://localhost:6081/admin",
+            "webRoot": "${workspaceFolder}/app-main",
+            "disableNetworkCache": true
+        }
+    ]
+}

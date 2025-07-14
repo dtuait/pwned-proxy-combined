@@ -1,0 +1,37 @@
+/* globals.css */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+/* Base Tokyo Night Light theme (light mode) colors */
+:root {
+    --color-bg: #e6e7ed;    /* Background :contentReference[oaicite:50]{index=50} */
+    --color-text: #343b58;  /* Foreground text :contentReference[oaicite:51]{index=51} */
+    --color-accent: #2959aa;/* Primary accent (blue) :contentReference[oaicite:52]{index=52} */
+    --color-muted: #6c6e75; /* Muted/subtle text (comments) :contentReference[oaicite:53]{index=53} */
+    --color-border: #c1c2c7;/* Border color */
+    /* You can add more if needed, e.g., --color-red: #8c4351; etc., 
+       but core ones are above */
+  }
+  
+  /* Tokyo Night Storm theme (dark mode) overrides */
+  .dark {
+    --color-bg: #24283b;    /* Background :contentReference[oaicite:54]{index=54} */
+    --color-text: #a9b1d6;  /* Foreground text :contentReference[oaicite:55]{index=55} */
+    --color-accent: #3d59a1;/* Primary accent (navy blue) :contentReference[oaicite:56]{index=56} */
+    --color-muted: #565f89; /* Muted/subtle text (comments) :contentReference[oaicite:57]{index=57} */
+    --color-border: #1b1e2e;/* Border color */
+  }
+  
+
+  body {
+    background-color: var(--color-bg);
+    color: var(--color-text);
+    font-family: /* your chosen font stack, e.g. */ var(--font-sans);
+  }
+  a {
+    color: var(--color-accent);
+  }
+  

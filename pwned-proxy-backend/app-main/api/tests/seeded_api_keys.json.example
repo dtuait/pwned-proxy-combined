@@ -1,0 +1,11 @@
+[
+  {"group_name": "Aalborg Universitet", "raw_key": "example-key-aau", "domains": ["aau.dk"]},
+  {"group_name": "Roskilde Universitet", "raw_key": "example-key-ruc", "domains": ["ruc.dk"]},
+  {"group_name": "Københavns Universitet", "raw_key": "example-key-ku", "domains": ["ku.dk"]},
+  {"group_name": "Niels Bohr Institutet", "raw_key": "example-key-nbi", "domains": ["nbi.dk"]},
+  {"group_name": "IT-Universitetet i København", "raw_key": "example-key-itu", "domains": ["itu.dk"]},
+  {"group_name": "Danmarks Tekniske Universitet", "raw_key": "example-key-dtu", "domains": ["dtu.dk"]},
+  {"group_name": "Danish e-Infrastructure Cooperation", "raw_key": "example-key-deic", "domains": ["deic.dk"]},
+  {"group_name": "Danish e-Infrastructure Cooperation", "raw_key": "example-key-cert", "domains": ["cert.dk"]},
+  {"group_name": "Copenhagen Business School", "raw_key": "example-key-cbs", "domains": ["cbs.dk"]}
+]

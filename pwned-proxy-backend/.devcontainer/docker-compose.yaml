@@ -1,0 +1,51 @@
+services:
+  pwned-proxy-app-main:
+    image: dtuait/pwned-proxy-app-main:python-3.13-bullseye-django-5.1.6-myversion-1.0.2
+    container_name: pwned-proxy-app-main
+
+    # ─── environment ────────────────────────────────────────────────────
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-db}
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+    restart: unless-stopped
+
+    # ─── run everything atomically on one line ──────────────────────────
+    working_dir: /usr/src/project/app-main         # <── $MANAGE_DIR
+    entrypoint: /bin/sh                         # use BusyBox sh
+    # command: -c "/usr/src/venvs/app-main/bin/python manage.py migrate --noinput && /usr/src/venvs/app-main/bin/python manage.py collectstatic --noinput && exec /usr/src/venvs/app-main/bin/gunicorn pwned_proxy.wsgi:application --bind 0.0.0.0:8000"
+
+    # Automatically apply migrations and create the default admin user
+    command: -c "/usr/src/venvs/app-main/bin/python manage.py migrate && /usr/src/venvs/app-main/bin/python create_admin.py && while :; do sleep 3600; done"
+
+    expose: ["8000"]
+    depends_on: [db]
+    
+    volumes:
+      - ../:/usr/src/project                # ← NEW – mount source read-only
+
+    labels:
+      - traefik.enable=true
+      - "traefik.http.routers.pwnedproxy.rule=Host(`$PWNED_PROXY_DOMAIN`)"
+      - traefik.http.routers.pwnedproxy.entryPoints=websecure
+      - traefik.http.routers.pwnedproxy.tls=true
+      - traefik.http.routers.pwnedproxy.tls.certresolver=letsencrypt
+      - traefik.http.services.pwnedproxy.loadbalancer.server.port=8000
+      - "traefik.http.routers.pwnedproxy-insecure.rule=Host(`$PWNED_PROXY_DOMAIN`)"
+      - traefik.http.routers.pwnedproxy-insecure.entryPoints=web
+      - traefik.http.routers.pwnedproxy-insecure.middlewares=pwnedproxy-https-redirect
+      - traefik.http.middlewares.pwnedproxy-https-redirect.redirectscheme.scheme=https
+
+  db:
+    image: postgres:14-alpine
+    container_name: pwnedproxy_db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB:       ${POSTGRES_DB:-db}
+      POSTGRES_USER:     ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:

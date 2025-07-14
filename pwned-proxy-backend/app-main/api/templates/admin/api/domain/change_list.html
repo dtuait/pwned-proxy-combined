@@ -1,0 +1,13 @@
+{% extends "admin/change_list.html" %}
+{% load i18n %}
+
+{% block object-tools %}
+    {{ block.super }}
+
+    <!-- Add a custom link styled like a button -->
+    <li style="list-style: none; margin-bottom: 30px;">
+      <a href="{% url 'admin:api_domain_import_hibp' %}" class="button">
+        {% trans "Import from HIBP" %}
+      </a>
+    </li>
+{% endblock %}

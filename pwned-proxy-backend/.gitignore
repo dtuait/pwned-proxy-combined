@@ -1,0 +1,20 @@
+# Byte-compiled / optimized / DLL files
+*.env*
+!.env.example
+!.env.dev.example
+!.env.prod.example
+*__pycache__*
+*.old
+*.log
+*.bak
+.bashrc
+.ssh/
+.vscode-server/
+.gitconfig
+.cache/
+.gnupg/
+.bash_history
+.dotnet/
+app-main/db.sqlite3
+app-main/staticfiles/*
+app-main/api/tests/seeded_api_keys.json

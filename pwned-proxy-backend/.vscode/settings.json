@@ -1,0 +1,8 @@
+{
+    "workbench.colorTheme": "Tokyo Night Storm",
+    "workbench.colorCustomizations": {
+        "activityBar.background": "#322E09",
+        "titleBar.activeBackground": "#46410D",
+        "titleBar.activeForeground": "#FCFBEF"
+    }
+}

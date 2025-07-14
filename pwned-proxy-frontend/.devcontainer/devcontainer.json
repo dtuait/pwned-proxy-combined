@@ -1,0 +1,15 @@
+{
+    "name": "Dev container: pwned-proxy-frontend",
+    "dockerComposeFile": "docker-compose.yaml",
+    "service": "pwned-proxy-frontend-app-main",
+    "workspaceFolder": "/usr/src/project",
+    "remoteUser": "node",
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "MS-vsliveshare.vsliveshare"
+            ]
+        }
+    },
+    "postStartCommand": "bash .devcontainer/postStartCommand.sh"
+}

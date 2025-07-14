@@ -1,0 +1,402 @@
+{
+	"info": {
+		"_postman_id": "ab785221-189c-40cb-8b8b-e87e1003a46f",
+		"name": "haveibeenpwned.cert.dk",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "31422874"
+	},
+	"item": [
+		{
+			"name": "1) Subscription - Subscribed Domains",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "hibp-api-key",
+						"value": "{{hibp-api-key}}"
+					}
+				],
+				"url": {
+					"raw": "https://preview.api.haveibeenpwned.cert.dk/api/v3/subscribeddomains",
+					"protocol": "https",
+					"host": [
+						"api",
+						"haveibeenpwned",
+						"security",
+						"ait",
+						"dtu",
+						"dk"
+					],
+					"path": [
+						"api",
+						"v3",
+						"subscribeddomains"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "2) Subscription - Status",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "hibp-api-key",
+						"value": "{{hibp-api-key}}"
+					}
+				],
+				"url": {
+					"raw": "https://preview.api.haveibeenpwned.cert.dk/api/v3/subscription/status",
+					"protocol": "https",
+					"host": [
+						"api",
+						"haveibeenpwned",
+						"security",
+						"ait",
+						"dtu",
+						"dk"
+					],
+					"path": [
+						"api",
+						"v3",
+						"subscription",
+						"status"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "3) Breached Domain Search",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "hibp-api-key",
+						"value": "{{hibp-api-key}}"
+					}
+				],
+				"url": {
+					"raw": "https://preview.api.haveibeenpwned.cert.dk/api/v3/breacheddomain/dtu.dk",
+					"protocol": "https",
+					"host": [
+						"api",
+						"haveibeenpwned",
+						"security",
+						"ait",
+						"dtu",
+						"dk"
+					],
+					"path": [
+						"api",
+						"v3",
+						"breacheddomain",
+						"dtu.dk"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "4) Dataclasses (all possible breach dataclasses)",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "hibp-api-key",
+						"value": "{{hibp-api-key}}"
+					}
+				],
+				"url": {
+					"raw": "https://preview.api.haveibeenpwned.cert.dk/api/v3/dataclasses",
+					"protocol": "https",
+					"host": [
+						"api",
+						"haveibeenpwned",
+						"security",
+						"ait",
+						"dtu",
+						"dk"
+					],
+					"path": [
+						"api",
+						"v3",
+						"dataclasses"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "5) Breached Account (by email)",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "hibp-api-key",
+						"value": "{{hibp-api-key}}"
+					}
+				],
+				"url": {
+					"raw": "https://preview.api.haveibeenpwned.cert.dk/api/v3/breachedaccount/juva@dtu.dk",
+					"protocol": "https",
+					"host": [
+						"api",
+						"haveibeenpwned",
+						"security",
+						"ait",
+						"dtu",
+						"dk"
+					],
+					"path": [
+						"api",
+						"v3",
+						"breachedaccount",
+						"juva@dtu.dk"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "6) All Breaches (publicly known)",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "hibp-api-key",
+						"value": "{{hibp-api-key}}"
+					}
+				],
+				"url": {
+					"raw": "https://preview.api.haveibeenpwned.cert.dk/api/v3/breaches",
+					"protocol": "https",
+					"host": [
+						"api",
+						"haveibeenpwned",
+						"security",
+						"ait",
+						"dtu",
+						"dk"
+					],
+					"path": [
+						"api",
+						"v3",
+						"breaches"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "7) Single Breach by Name",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "hibp-api-key",
+						"value": "{{hibp-api-key}}"
+					}
+				],
+				"url": {
+					"raw": "https://preview.api.haveibeenpwned.cert.dk/api/v3/breach/Adobe",
+					"protocol": "https",
+					"host": [
+						"api",
+						"haveibeenpwned",
+						"security",
+						"ait",
+						"dtu",
+						"dk"
+					],
+					"path": [
+						"api",
+						"v3",
+						"breach",
+						"Adobe"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "8) Paste Account (by email)",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "hibp-api-key",
+						"value": "{{hibp-api-key}}"
+					}
+				],
+				"url": {
+					"raw": "https://preview.api.haveibeenpwned.cert.dk/api/v3/pasteaccount/mpark@dtu.dk",
+					"protocol": "https",
+					"host": [
+						"api",
+						"haveibeenpwned",
+						"security",
+						"ait",
+						"dtu",
+						"dk"
+					],
+					"path": [
+						"api",
+						"v3",
+						"pasteaccount",
+						"mpark@dtu.dk"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "9) Stealer Logs by Email Domain",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "hibp-api-key",
+						"value": "{{hibp-api-key}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://preview.api.haveibeenpwned.cert.dk/api/v3/stealerlogsbyemaildomain/ruc.dk",
+					"protocol": "https",
+					"host": [
+						"api",
+						"haveibeenpwned",
+						"security",
+						"ait",
+						"dtu",
+						"dk"
+					],
+					"path": [
+						"api",
+						"v3",
+						"stealerlogsbyemaildomain",
+						"ruc.dk"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "10) Stealer Logs by Email",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "hibp-api-key",
+						"value": "{{hibp-api-key}}"
+					}
+				],
+				"url": {
+					"raw": "https://preview.api.haveibeenpwned.cert.dk/api/v3/stealerlogsbyemail/rele@dtu.dk",
+					"protocol": "https",
+					"host": [
+						"api",
+						"haveibeenpwned",
+						"security",
+						"ait",
+						"dtu",
+						"dk"
+					],
+					"path": [
+						"api",
+						"v3",
+						"stealerlogsbyemail",
+						"rele@dtu.dk"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "11) Stealer Logs by Website Domain",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "hibp-api-key",
+						"value": "{{hibp-api-key}}"
+					}
+				],
+				"url": {
+					"raw": "https://preview.api.haveibeenpwned.cert.dk/api/v3/stealerlogsbywebsitedomain/dtu.dk",
+					"protocol": "https",
+					"host": [
+						"api",
+						"haveibeenpwned",
+						"security",
+						"ait",
+						"dtu",
+						"dk"
+					],
+					"path": [
+						"api",
+						"v3",
+						"stealerlogsbywebsitedomain",
+						"dtu.dk"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "12) Pwned Passwords (Range) - example",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://preview.api.haveibeenpwned.cert.dk/range/5BAA6",
+					"protocol": "https",
+					"host": [
+						"api",
+						"haveibeenpwned",
+						"security",
+						"ait",
+						"dtu",
+						"dk"
+					],
+					"path": [
+						"range",
+						"5BAA6"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "hibp-api-key",
+			"value": "sercret",
+			"type": "string"
+		}
+	]
+}

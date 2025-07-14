@@ -1,0 +1,18 @@
+# Byte-compiled / optimized / DLL files
+*.env
+*.old
+*.log
+*.bak
+.bashrc
+.ssh/
+.vscode-server/
+.gitconfig
+.cache/
+.gnupg/
+.bash_history
+.dotnet/
+
+node_modules
+.next
+app-main/.env.local
+app-main/package-lock.json

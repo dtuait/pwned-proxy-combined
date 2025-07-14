@@ -1,0 +1,14 @@
+services:
+  pwned-proxy-frontend-app-main:
+    image: dtuait/nextjs-devcontainer-app-main:nodejs22-1.0.0
+
+    user: node
+    command: sleep infinity
+    stdin_open: true
+    tty: true
+    volumes:
+      - ..:/usr/src/project
+    ports:
+          - "3000:3000"    # Next.js app
+          - "9229:9229"    # Node Inspector port 1
+          - "9230:9230"    # Node Inspector port 2 (Next.js may use this)

@@ -1,0 +1,27 @@
+{% extends "admin/change_list.html" %}
+{% load i18n %}
+
+{% block object-tools %}
+    {{ block.super }}
+
+    <li style="list-style: none; margin-bottom: 30px;">
+      <a href="#" class="button" onclick="return confirmSeed();">
+        {% trans "Seed Groups" %}
+      </a>
+    </li>
+
+    <script type="text/javascript">
+      function confirmSeed() {
+        if (confirm("All API keys will be overwritten. Do you want to proceed?")) {
+          // Open the CSV in a new browser tab/window
+          window.open("{% url 'admin:seed_groups' %}?confirmed=1", "_blank");
+
+          // After 1 second, reload the current page so updated groups are shown
+          setTimeout(function() {
+            window.location.reload();
+          }, 3000);
+        }
+        return false; // Cancels default <a> navigation
+      }
+    </script>
+{% endblock %}
