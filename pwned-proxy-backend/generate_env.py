@@ -12,8 +12,10 @@ from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent
 
 EXAMPLES = {
-    'prod': BASE_DIR / '.env.prod.example',
-    'devcontainer': BASE_DIR / '.env.dev.example',
+    # Example file used when generating the production .env
+    'prod': BASE_DIR / '.env.example',
+    # Example file used when generating the Dev Container .env
+    'devcontainer': BASE_DIR / '.devcontainer' / '.env.example',
 }
 TARGETS = {
     'prod': BASE_DIR / '.env',

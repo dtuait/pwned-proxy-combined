@@ -1,8 +1,7 @@
 # Byte-compiled / optimized / DLL files
 *.env*
 !.env.example
-!.env.dev.example
-!.env.prod.example
+!.devcontainer/.env.example
 *__pycache__*
 *.old
 *.log
