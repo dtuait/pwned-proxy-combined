@@ -22,15 +22,25 @@ TARGETS = {
     'devcontainer': BASE_DIR / '.devcontainer' / '.env',
 }
 
-def _fill_value(key: str) -> str:
-    """Return a suitable default for the given key."""
-    if key == 'DJANGO_SECRET_KEY':
-        return secrets.token_urlsafe(50)
-    if key in {'POSTGRES_PASSWORD', 'DJANGO_SUPERUSER_PASSWORD'}:
-        return secrets.token_urlsafe(16)
-    if key == 'DJANGO_SUPERUSER_USERNAME':
-        return 'admin'
-    return ''
+PLACEHOLDERS = {
+    'DJANGO_SECRET_KEY': '<django_secret_key>',
+    'POSTGRES_PASSWORD': '<postgres_password>',
+}
+
+
+def _fill_value(key: str, value: str) -> str:
+    """Return a suitable default for the given key if the value is empty or a placeholder."""
+    if not value or value == PLACEHOLDERS.get(key) or (
+        key == 'DJANGO_SECRET_KEY' and value == 'change-this-to-a-random-secret-key'
+    ):
+        if key == 'DJANGO_SECRET_KEY':
+            return secrets.token_urlsafe(50)
+        if key in {'POSTGRES_PASSWORD', 'DJANGO_SUPERUSER_PASSWORD'}:
+            return secrets.token_urlsafe(16)
+        if key == 'DJANGO_SUPERUSER_USERNAME':
+            return 'admin'
+        return ''
+    return value
 
 def generate(env: str) -> Path:
     example_path = EXAMPLES[env]
@@ -42,8 +52,7 @@ def generate(env: str) -> Path:
             lines.append(line)
             continue
         key, _, value = line.partition('=')
-        if not value:
-            value = _fill_value(key)
+        value = _fill_value(key, value)
         lines.append(f"{key}={value}")
     target_path.write_text('\n'.join(lines) + '\n')
     return target_path
