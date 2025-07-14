@@ -1,0 +1,32 @@
+version: "3.9"
+services:
+  backend:
+    build:
+      context: ./pwned-proxy-backend
+      dockerfile: .devcontainer/Dockerfile.prod
+    env_file:
+      - ./pwned-proxy-backend/.env
+    depends_on:
+      - db
+    ports:
+      - "8000:8000"
+  frontend:
+    build:
+      context: ./pwned-proxy-frontend/app-main
+      dockerfile: Dockerfile
+    env_file:
+      - ./pwned-proxy-frontend/app-main/.env.local
+    depends_on:
+      - backend
+    ports:
+      - "3000:3000"
+  db:
+    image: postgres:14-alpine
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-db}
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+volumes:
+  postgres_data:
