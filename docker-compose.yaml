@@ -1,7 +1,9 @@
 version: "3.9"
 services:
   backend:
-    image: dtuait/pwned-proxy-app-main:python-3.13-bullseye-django-5.1.6-myversion-1.0.2
+    build:
+      context: ./pwned-proxy-backend
+      dockerfile: .devcontainer/Dockerfile.prod
     env_file:
       - ./pwned-proxy-backend/.env
     depends_on:
@@ -9,7 +11,9 @@ services:
     ports:
       - "8000:8000"
   frontend:
-    image: dtuait/nextjs-devcontainer-app-main:nodejs22-1.0.0
+    build:
+      context: ./pwned-proxy-frontend/app-main
+      dockerfile: Dockerfile
     env_file:
       - ./pwned-proxy-frontend/app-main/.env.local
     depends_on:
