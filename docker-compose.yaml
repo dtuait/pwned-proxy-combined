@@ -1,4 +1,3 @@
-version: "3.9"
 services:
   backend:
     image: dtuait/pwned-proxy-app-main:python-3.13-bullseye-django-5.1.6-myversion-1.0.2
