@@ -1,0 +1,23 @@
+# Dockerfile.prod
+FROM dtuait/pwned-proxy-app-main:python-3.13-bullseye-django-5.1.6-myversion-1.0.2
+
+# Copy project source into the image
+COPY . /usr/src/project
+WORKDIR /usr/src/project/app-main
+
+# Install any additional Python dependencies (like whitenoise)
+RUN /usr/src/venvs/app-main/bin/pip install --no-cache-dir -r ../.devcontainer/requirements.txt
+
+# Copy entrypoint script and run it at container start
+COPY --chmod=0755 entrypoint.sh /entrypoint.sh
+
+# Ensure the staticfiles directory exists with the correct ownership.
+# The base image runs as the non-root "appuser", so creation must happen as
+# root and then be chowned back.
+USER root
+RUN install -d -m 0755 /usr/src/project/app-main/staticfiles \
+    && chown appuser:appuser /usr/src/project/app-main/staticfiles
+USER appuser
+
+# Start the Django app via the entrypoint script
+ENTRYPOINT ["/entrypoint.sh"]
