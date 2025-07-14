@@ -21,7 +21,7 @@ A docker compose file is provided to simplify running the entire stack.
 
 2. Clone this repository on your server.
 
-3. Create the backend environment file. A helper script fills in reasonable defaults:
+3. Create the backend environment file. A helper script fills in reasonable defaults from `.env.example` and `.devcontainer/.env.example`:
 
    ```bash
    cd pwned-proxy-backend

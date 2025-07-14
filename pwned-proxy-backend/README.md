@@ -20,9 +20,10 @@ The `generate_env.sh` helper can create the template files:
 ./generate_env.sh
 ```
 
-This populates `.env` and `.devcontainer/.env` using the example templates and
-should be run before starting Docker or the Dev Container. Edit the created
-files and replace any placeholders.
+This populates `.env` and `.devcontainer/.env` using the provided example
+templates (`.env.example` and `.devcontainer/.env.example`) and should be run
+before starting Docker or the Dev Container. Edit the created files and replace
+any placeholders.
 
 Set `DJANGO_DEBUG=true` in your `.env` to enable Django's debug mode.
 
