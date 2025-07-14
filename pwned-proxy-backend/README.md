@@ -10,11 +10,9 @@ immediately.
 - [Docker](https://www.docker.com/) and Docker Compose installed
 
 
-Before starting the stack you must create a `.env` file. Copy `.env.example`
-and replace the placeholder values. At minimum `DJANGO_SECRET_KEY` and
-`POSTGRES_PASSWORD` need strong values which you can generate at
-<https://www.random.org/passwords/?num=5&len=32&format=html&rnd=new>.
-The `generate_env.sh` helper can create the template files:
+Before starting the stack you must create a `.env` file. The `generate_env.sh`
+helper will create `.env` and `.devcontainer/.env` for you and automatically
+generate secure defaults for `DJANGO_SECRET_KEY` and `POSTGRES_PASSWORD`:
 
 ```bash
 ./generate_env.sh
@@ -23,7 +21,7 @@ The `generate_env.sh` helper can create the template files:
 This populates `.env` and `.devcontainer/.env` using the provided example
 templates (`.env.example` and `.devcontainer/.env.example`) and should be run
 before starting Docker or the Dev Container. Edit the created files and replace
-any placeholders.
+any remaining placeholders as needed.
 
 Set `DJANGO_DEBUG=true` in your `.env` to enable Django's debug mode.
 
