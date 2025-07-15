@@ -1,67 +1,6 @@
 # Pwned Proxy Combined
 
-This repository contains both the Django backend (`pwned-proxy-backend`) and the Next.js frontend (`pwned-proxy-frontend`).
-A docker compose file is provided to simplify running the entire stack.
 
-## Requirements
-
-* Debian 12 with [Docker](https://www.docker.com/) and Docker Compose installed.
-* Two environment files:
-  * `pwned-proxy-backend/.env`
-  * `pwned-proxy-frontend/app-main/.env.local`
-
-## Preparing the environment
-
-1. Install Docker and Docker Compose:
-
-   ```bash
-   sudo apt update
-   sudo apt install docker.io docker-compose -y
-   ```
-
-2. Clone this repository on your server.
-
-3. Create the backend environment file. A helper script fills in reasonable defaults from `.env.example` and `.devcontainer/.env.example`:
-
-   ```bash
-   cd pwned-proxy-backend
-   ./generate_env.sh
-   ```
-
-   Edit the generated `.env` and set strong values for at least `DJANGO_SECRET_KEY` and `POSTGRES_PASSWORD`.
-   You may also supply a value for `HIBP_API_KEY` and other optional settings.
-
-4. Create the frontend environment file by copying the example:
-
-   ```bash
-   cd ../pwned-proxy-frontend/app-main
-   cp .env.local.example .env.local
-   ```
-
-   Adjust `NEXT_PUBLIC_HIBP_PROXY_URL` if the backend is exposed on a different host or port. Additional optional
-   variables such as `NEXT_PUBLIC_GA_MEASUREMENT_ID` and `NEXT_PUBLIC_CONTACT_EMAIL` may be set as required.
-
-Return to the repository root once the environment files have been prepared.
-
-## Running the stack
-
-From the repository root execute:
-
-```bash
-docker compose up --build -d
-```
-
-The services started are:
-
-- **backend** – Django application available on port **8000**
-- **frontend** – Next.js frontend served on port **3000**
-- **db** – PostgreSQL instance used by the backend
-
-The containers can be stopped with:
-
-```bash
-docker compose down
-```
 
 ## First time setup
 
@@ -88,22 +27,39 @@ git clone https://github.com/dtuait/pwned-proxy-combined
 Generate the `.env` files by running `generate_env.sh` inside the backend
 directory. This creates `.env` and `.devcontainer/.env` with random values:
 
-```bash
-cd pwned-proxy-backend && ./generate_env.sh
-```
+
 
 Example output:
 
-```
-Created /home/victor-reipur/Projects/pwned-proxy-combined/pwned-proxy-backend/.env
-Created /home/victor-reipur/Projects/pwned-proxy-combined/pwned-proxy-backend/.devcontainer/.env
-```
-
-You can inspect the generated file to verify the credentials:
-
 ```bash
-cat pwned-proxy-backend/.env
+cd pwned-proxy-backend && ./generate_env.sh
+#### Example output
+
+user@srv:~/Projects/pwned-proxy-combined/pwned-proxy-backend
+$ cat ./pwned-proxy-combined/pwned-proxy-backend/.env
+# Environment configuration for Pwned Proxy
+# Copy this file to `.env` and replace the placeholder values.
+# Generate strong values at https://www.random.org/passwords/?num=5&len=32&format=html&rnd=new
+
+# PostgreSQL configuration
+POSTGRES_DB=db
+POSTGRES_USER=postgres
+POSTGRES_PASSWORD=ElxMBu0b5Ya9165uCmbEXQ
+
+# Django secret key
+DJANGO_SECRET_KEY=nm_9d0Wcm14CwG2e54bG15L0Op0RnBqj3KcKCFxUNBibSBrbANR2n6G41Ji4Lx2tPwg
+
+# These can be left empty; startup scripts will handle them
+DJANGO_SUPERUSER_USERNAME=admin
+DJANGO_SUPERUSER_PASSWORD=c0mcj8OxwMBwnZE1nyTpEQ
+HIBP_API_KEY=
+SERVICE_FQDN_APP=api.haveibeenpwned.cert.dk
+PWNED_PROXY_DOMAIN=api.haveibeenpwned.cert.dk
+
+# Set to 'true' to enable Django debug mode
+DJANGO_DEBUG=false
 ```
+
 
 ### 3. Configure the frontend
 
@@ -114,9 +70,12 @@ Analytics keys:
 cd ../pwned-proxy-frontend/app-main
 cp .env.local.example .env.local
 nano .env.local
-```
+NEXT_PUBLIC_HIBP_PROXY_URL=http://api.haveibeenpwned.cert.dk/
+NEXT_PUBLIC_GA_MEASUREMENT_ID=<google_analytics_measurement_id> # add if you analytics
+HIBP_API_KEY=<REQUIRED>
+NEXT_PUBLIC_CONTACT_EMAIL=cert@cert.dk
 
-![Frontend env](https://supabase.vicre-nextjs-01.security.ait.dtu.dk/storage/v1/object/public/hibp-guide/2-django-add-hibpkey.png)
+```
 
 ### 4. Start the stack
 
@@ -128,7 +87,7 @@ docker compose up --build -d
 
 ### 5. Configure the API
 
-Open `https://api.haveibeenpwned.cert.dk/admin` and log in with the admin
+Open `https://api.haveibeenpwned.cert.dk/admin` or `localhost:8000/admin` and log in with the admin
 credentials printed during startup.
 
 ![Login](https://supabase.vicre-nextjs-01.security.ait.dtu.dk/storage/v1/object/public/hibp-guide/1-django-adminlogin.png)
