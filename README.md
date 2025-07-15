@@ -13,7 +13,7 @@ You can access the frontend at [http://localhost:3000](http://localhost:3000) an
 ## Example setup
 
 The following walkthrough demonstrates a complete installation using Docker. It
-assumes `haveibeenpwned.cert.dk` and `api.haveibeenpwned.cert.dk` are proxied to
+assumes `domainthatyouown.com` and `api.domainthatyouown.com` are proxied to
 `localhost:3000` and `localhost:8000` respectively.
 
 ### 1. Clone the repository
@@ -87,7 +87,7 @@ docker compose up --build -d
 
 ### 5. Configure the API
 
-Open `https://api.haveibeenpwned.cert.dk/admin` or `localhost:8000/admin` and log in with the admin
+Open `https://api.domainthatyouown.com/admin` or `localhost:8000/admin` and log in with the admin
 credentials printed during startup.
 
 ![Login](https://supabase.vicre-nextjs-01.security.ait.dtu.dk/storage/v1/object/public/hibp-guide/1-django-adminlogin.png)
