@@ -53,8 +53,8 @@ DJANGO_SECRET_KEY=nm_9d0Wcm14CwG2e54bG15L0Op0RnBqj3KcKCFxUNBibSBrbANR2n6G41Ji4Lx
 DJANGO_SUPERUSER_USERNAME=admin
 DJANGO_SUPERUSER_PASSWORD=c0mcj8OxwMBwnZE1nyTpEQ
 HIBP_API_KEY=
-SERVICE_FQDN_APP=api.haveibeenpwned.cert.dk
-PWNED_PROXY_DOMAIN=api.haveibeenpwned.cert.dk
+SERVICE_FQDN_APP=api.domainthatyouown.com
+PWNED_PROXY_DOMAIN=api.domainthatyouown.com
 
 # Set to 'true' to enable Django debug mode
 DJANGO_DEBUG=false
@@ -70,10 +70,10 @@ Analytics keys:
 cd ../pwned-proxy-frontend/app-main
 cp .env.local.example .env.local
 nano .env.local
-NEXT_PUBLIC_HIBP_PROXY_URL=http://api.haveibeenpwned.cert.dk/
+NEXT_PUBLIC_HIBP_PROXY_URL=http://api.domainthatyouown.com/
 NEXT_PUBLIC_GA_MEASUREMENT_ID=<google_analytics_measurement_id> # add if you analytics
 HIBP_API_KEY=<REQUIRED>
-NEXT_PUBLIC_CONTACT_EMAIL=cert@cert.dk
+NEXT_PUBLIC_CONTACT_EMAIL=person@email.com
 
 ```
 
