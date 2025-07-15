@@ -99,10 +99,10 @@ Add your HIBP key and save it:
 
 Import the domain list:
 
-![Import domains](https://supabase.vicre-nextjs-01.security.ait.dtu.dk/storage/v1/object/public/hibp-guide/4-django-importdomains.png)
+![Import domains](https://supabase.vicre-nextjs-01.security.ait.dtu.dk/storage/v1/object/public/hibp-guide/4.1-django-importdomains.png)
 
 Generate client API keys and download `seeded_api_keys.json`:
 
-![Seed keys](https://supabase.vicre-nextjs-01.security.ait.dtu.dk/storage/v1/object/public/hibp-guide/5-django-seed-and-download-clienthibpkeys.png)
+![Seed keys](https://supabase.vicre-nextjs-01.security.ait.dtu.dk/storage/v1/object/public/hibp-guide/5.1-django-seed-and-download-clienthibpkeys.png)
 
 
