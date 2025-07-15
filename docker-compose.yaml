@@ -8,7 +8,12 @@ services:
     depends_on:
       - db
     ports:
+      # Host‑only access
       - "127.0.0.1:8000:8000"
+    networks:
+      - private   # talk to Postgres
+      - public    # talk to frontend / Internet
+
   frontend:
     build:
       context: ./pwned-proxy-frontend/app-main
@@ -18,12 +23,26 @@ services:
     depends_on:
       - backend
     ports:
+      # Host‑only access
       - "127.0.0.1:3000:3000"
+    networks:
+      - public    # talk to backend / Internet
+
   db:
     image: postgres:14-alpine
     env_file:
       - ./pwned-proxy-backend/.env
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    networks:
+      - private   # only backend can see this
+
 volumes:
   postgres_data:
+
+networks:
+  # Isolated; unreachable from the host or other networks
+  private:
+    internal: true
+  # Ordinary bridge; containers on it can reach one another and the Internet
+  public:
