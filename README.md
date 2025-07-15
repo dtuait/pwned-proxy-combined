@@ -1,8 +1,15 @@
 # Pwned Proxy Combined
 
+## Purpose of the Tool
 
+Pwned Proxy replicates the official HIBP API endpoint signature. Customers only
+need to change the domain and HIBP key to use this service. It acts as a proxy
+that allows multiple universities to access their HIBP data exactly as if they
+had their own HaveIBeenPwned subscription, providing the same service for free.
 
-## First time setup
+## How to Get Started
+
+### First time setup
 
 When the backend container starts for the first time it will apply migrations, create a superuser and, if `HIBP_API_KEY`
 was provided, import initial data. The credentials are printed in the backend logs.
@@ -10,7 +17,7 @@ was provided, import initial data. The credentials are printed in the backend lo
 You can access the frontend at [http://localhost:3000](http://localhost:3000) and the Django admin interface at
 [http://localhost:8000/admin/](http://localhost:8000/admin/).
 
-## Example setup
+### Example setup
 
 The following walkthrough demonstrates a complete installation using Docker. It
 assumes `domainthatyouown.com` and `api.domainthatyouown.com` are proxied to
