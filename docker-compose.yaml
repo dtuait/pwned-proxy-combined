@@ -8,7 +8,7 @@ services:
     depends_on:
       - db
     ports:
-      - "8000:8000"
+      - "127.0.0.1:8000:8000"
   frontend:
     build:
       context: ./pwned-proxy-frontend/app-main
@@ -18,7 +18,7 @@ services:
     depends_on:
       - backend
     ports:
-      - "3000:3000"
+      - "127.0.0.1:3000:3000"
   db:
     image: postgres:14-alpine
     env_file:
