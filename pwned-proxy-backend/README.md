@@ -41,9 +41,6 @@ superuser is created automatically. If the `.env` file was generated, all
 generated values including the admin credentials are printed and stored in that
 file so you can reuse them across restarts.
 
-When deploying with `docker-compose-coolify.yaml`, ports `80` and `443` are
-mapped to the internal port `8000` so the application is reachable at the
-provided domain without specifying a port.
 
 ### Using a custom domain
 
