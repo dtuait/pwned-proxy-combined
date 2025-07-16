@@ -10,7 +10,7 @@ if [ ! -d /usr/venv/backend ]; then
 fi
 
 # Install backend Python dependencies inside the virtual environment
-/usr/venv/backend/bin/pip install --no-cache-dir -r pwned-proxy-backend/.devcontainer/requirements.txt
+/usr/venv/backend/bin/pip install --no-cache-dir -r pwned-proxy-backend/requirements.txt
 
 
 # Install frontend Node dependencies
