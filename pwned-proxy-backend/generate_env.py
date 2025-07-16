@@ -21,7 +21,7 @@ PLACEHOLDERS = {
     'DJANGO_SECRET_KEY': '<long-secret-key>',
     'POSTGRES_PASSWORD': '<long-secret-password>',
     'DJANGO_SUPERUSER_PASSWORD': '<long-secret-password>',
-    'HIBP_API_KEY': '<long-hibp-api-key>',
+    'HIBP_API_KEY': '<dummy-hibp-key>',
     'DEVCONTAINER_NGROK_AUTHTOKEN': '<long-ngrok-token>',
 }
 

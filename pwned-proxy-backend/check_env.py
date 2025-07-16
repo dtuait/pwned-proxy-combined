@@ -58,14 +58,22 @@ def main() -> None:
         'DJANGO_SECRET_KEY': '<long-secret-key>',
         'POSTGRES_PASSWORD': '<long-secret-password>',
         'DJANGO_SUPERUSER_PASSWORD': '<long-secret-password>',
-        'HIBP_API_KEY': '<long-hibp-api-key>',
+        'HIBP_API_KEY': '<dummy-hibp-key>',
         'DEVCONTAINER_NGROK_AUTHTOKEN': '<long-ngrok-token>',
     }
 
     for key, placeholder in placeholders.items():
         value = os.getenv(key)
-        if not value or value == placeholder or (key == 'DJANGO_SECRET_KEY' and value == 'change-this-to-a-random-secret-key'):
-            print(f'{key} must be set. Generate a secure value at https://www.random.org/passwords/?num=5&len=32&format=html&rnd=new', file=sys.stderr)
+        if key == 'HIBP_API_KEY' and (not value or value == placeholder):
+            print('HIBP_API_KEY not set; startup will continue.', file=sys.stderr)
+            continue
+        if not value or value == placeholder or (
+            key == 'DJANGO_SECRET_KEY' and value == 'change-this-to-a-random-secret-key'
+        ):
+            print(
+                f'{key} must be set. Generate a secure value at https://www.random.org/passwords/?num=5&len=32&format=html&rnd=new',
+                file=sys.stderr,
+            )
             sys.exit(1)
 
 
