@@ -12,8 +12,8 @@ export default function AboutPage() {
         const res = await fetch("/api/group-names");
         if (!res.ok) throw new Error(`Failed to load groups: ${res.status}`);
         const data = await res.json();
-        if (!Array.isArray(data) || data.length === 0) {
-          throw new Error("No group list returned");
+        if (!Array.isArray(data)) {
+          throw new Error("Invalid group list returned");
         }
         setGroups(data as string[]);
       } catch (err) {
@@ -53,9 +53,11 @@ export default function AboutPage() {
         </p>
         <h2 className="text-xl font-semibold mt-6">Subscribed Universities</h2>
         <ul className="list-disc pl-5 text-left space-y-1">
-          {groups.map((g) => (
-            <li key={g}>{g}</li>
-          ))}
+          {groups.length > 0 ? (
+            groups.map((g) => <li key={g}>{g}</li>)
+          ) : (
+            <li className="list-none">No groups configured</li>
+          )}
         </ul>
         {/* Download Postman collection from public/haveibeenpwned.deic.dk.postman_collection_v2.json */}
         <div className="mt-8 flex justify-center">

@@ -24,9 +24,9 @@ export async function GET() {
     }
 
     const data = JSON.parse(text);
-    if (!Array.isArray(data) || data.length === 0) {
+    if (!Array.isArray(data)) {
       return NextResponse.json(
-        { error: 'No groups returned from backend' },
+        { error: 'Invalid groups payload from backend' },
         { status: 500 }
       );
     }
