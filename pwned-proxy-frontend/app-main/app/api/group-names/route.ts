@@ -2,10 +2,13 @@ import { NextResponse } from 'next/server';
 
 export async function GET() {
   const baseUrl = (
+    process.env.HIBP_PROXY_INTERNAL_URL ||
     process.env.NEXT_PUBLIC_HIBP_PROXY_URL ||
-    'http://localhost:8000'
+    'http://backend:8000'
   ).replace(/\/$/, '');
   const apiKey = process.env.HIBP_API_KEY ?? '';
+
+  console.log('[group-names] using baseUrl:', baseUrl);
 
   try {
     const response = await fetch(`${baseUrl}/api/v3/group-names`, {
@@ -15,7 +18,9 @@ export async function GET() {
       },
     });
 
+    console.log('[group-names] response status:', response.status);
     const text = await response.text();
+    console.log('[group-names] raw response:', text);
     if (!response.ok) {
       return NextResponse.json(
         { error: `Backend API error: ${response.status}`, details: text },
@@ -33,6 +38,7 @@ export async function GET() {
 
     return NextResponse.json(data);
   } catch (err) {
+    console.error('[group-names] unexpected error', err);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }

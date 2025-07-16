@@ -9,14 +9,18 @@ export default function AboutPage() {
   useEffect(() => {
     const load = async () => {
       try {
+        console.log('[about] fetching group names');
         const res = await fetch("/api/group-names");
+        console.log('[about] response status', res.status);
         if (!res.ok) throw new Error(`Failed to load groups: ${res.status}`);
         const data = await res.json();
+        console.log('[about] data', data);
         if (!Array.isArray(data)) {
           throw new Error("Invalid group list returned");
         }
         setGroups(data as string[]);
       } catch (err) {
+        console.error('[about] error fetching group names', err);
         setError((err as Error).message);
       }
     };
