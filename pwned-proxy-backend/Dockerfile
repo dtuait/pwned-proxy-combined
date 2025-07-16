@@ -6,7 +6,7 @@ COPY . /usr/src/project
 WORKDIR /usr/src/project/app-main
 
 # Install any additional Python dependencies (like whitenoise)
-RUN /usr/src/venvs/app-main/bin/pip install --no-cache-dir -r ../.devcontainer/requirements.txt
+RUN /usr/src/venvs/app-main/bin/pip install --no-cache-dir -r ../requirements.txt
 
 # Copy entrypoint script and run it at container start
 COPY --chmod=0755 entrypoint.sh /entrypoint.sh

@@ -11,17 +11,16 @@ immediately.
 
 
 Before starting the stack you must create a `.env` file. The `generate_env.sh`
-helper will create `.env` and `.devcontainer/.env` for you and automatically
-generate secure defaults for `DJANGO_SECRET_KEY` and `POSTGRES_PASSWORD`:
+helper will create it for you and automatically generate secure defaults for
+`DJANGO_SECRET_KEY` and `POSTGRES_PASSWORD`:
 
 ```bash
 ./generate_env.sh
 ```
 
-This populates `.env` and `.devcontainer/.env` using the provided example
-templates (`.env.example` and `.devcontainer/.env.example`) and should be run
-before starting Docker or the Dev Container. Edit the created files and replace
-any remaining placeholders as needed.
+This populates `.env` using the provided `.env.example` template and should be
+run before starting Docker or the Dev Container. Edit the created file and
+replace any remaining placeholders as needed.
 
 Set `DJANGO_DEBUG=true` in your `.env` to enable Django's debug mode.
 
@@ -77,7 +76,7 @@ Execute the tests with:
 
 ```bash
 # Install dependencies if running outside Docker
-pip install -r .devcontainer/requirements.txt
+pip install -r requirements.txt
 
 PYTHONPATH=app-main DJANGO_SETTINGS_MODULE=pwned_proxy.settings \
 python manage.py test api
@@ -144,11 +143,11 @@ Django application.
 To test and iterate on the project inside a [Dev Container](https://containers.dev/), install VS Code with the "Dev Containers" extension. Then generate the environment file and reopen the folder in the container:
 
 ```bash
-./generate_env.sh devcontainer
+./generate_env.sh
 code . # open in VS Code and select 'Dev Containers: Reopen in Container'
 ```
 
-The container is defined by `.devcontainer/docker-compose.yaml` and automatically installs all dependencies.
+The container is defined by the root `.devcontainer/docker-compose.yml` and automatically installs all dependencies.
 
 ### Running the development server
 

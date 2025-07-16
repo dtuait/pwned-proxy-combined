@@ -1,6 +1,0 @@
-[submodule ".devcontainer/.docker-image-builder"]
-	path = .devcontainer/.docker-image-builder
-	url = https://github.com/dtuait/.docker-image-builder
-[submodule ".devcontainer/.docker-migrate"]
-	path = .devcontainer/.docker-migrate
-	url = https://github.com/dtuait/.docker-migrate

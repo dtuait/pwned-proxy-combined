@@ -1,7 +1,0 @@
-Django==5.1.6
-djangorestframework
-drf-yasg
-requests
-django-cors-headers
-python-dotenv
-psycopg2-binary

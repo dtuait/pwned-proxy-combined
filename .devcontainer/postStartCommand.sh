@@ -4,7 +4,7 @@ set -e
 echo "Running postStartCommand.sh..."
 
 # Install backend Python dependencies
-pip install --no-cache-dir -r pwned-proxy-backend/.devcontainer/requirements.txt
+pip install --no-cache-dir -r pwned-proxy-backend/requirements.txt
 
 # Install frontend Node dependencies
 pushd pwned-proxy-frontend/app-main >/dev/null

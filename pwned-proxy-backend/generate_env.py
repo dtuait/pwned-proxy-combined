@@ -1,9 +1,8 @@
 #!/usr/bin/env python3
-"""Generate environment files for production and the dev container.
+"""Generate the production `.env` file.
 
 Run this script before starting Docker or the Dev Container to create
-`.env` and `.devcontainer/.env` based on the example files shipped with
-this repository.
+`.env` based on the example file shipped with this repository.
 """
 import argparse
 import secrets
@@ -12,14 +11,10 @@ from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent
 
 EXAMPLES = {
-    # Example file used when generating the production .env
     'prod': BASE_DIR / '.env.example',
-    # Example file used when generating the Dev Container .env
-    'devcontainer': BASE_DIR / '.devcontainer' / '.env.example',
 }
 TARGETS = {
     'prod': BASE_DIR / '.env',
-    'devcontainer': BASE_DIR / '.devcontainer' / '.env',
 }
 
 PLACEHOLDERS = {
@@ -59,20 +54,11 @@ def generate(env: str) -> Path:
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description='Generate .env files.')
-    parser.add_argument(
-        'target',
-        nargs='?',
-        choices=['prod', 'devcontainer', 'all'],
-        default='all',
-        help='Which environment file to generate',
-    )
+    parser = argparse.ArgumentParser(description='Generate the .env file.')
     args = parser.parse_args()
 
-    envs = ['prod', 'devcontainer'] if args.target == 'all' else [args.target]
-    for env in envs:
-        path = generate(env)
-        print(f"Created {path}")
+    path = generate('prod')
+    print(f"Created {path}")
 
 if __name__ == '__main__':
     main()
