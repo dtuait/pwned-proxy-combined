@@ -12,7 +12,8 @@ had their own HaveIBeenPwned subscription, providing the same service for free.
 ### First time setup
 
 When the backend container starts for the first time it will apply migrations, create a superuser and, if `HIBP_API_KEY`
-was provided, import initial data. The credentials are printed in the backend logs.
+was provided, import initial data. On subsequent starts the value of `HIBP_API_KEY` in `pwned-proxy-backend/.env` is
+used to update the stored key automatically. The credentials are printed in the backend logs.
 
 You can access the frontend at [http://localhost:3000](http://localhost:3000) and the Django admin interface at
 [http://localhost:8000/admin/](http://localhost:8000/admin/).
