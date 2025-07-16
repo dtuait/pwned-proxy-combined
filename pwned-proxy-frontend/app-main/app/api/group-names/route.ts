@@ -2,8 +2,9 @@ import { NextResponse } from 'next/server';
 
 export async function GET() {
   const baseUrl = (
+    process.env.HIBP_PROXY_INTERNAL_URL ||
     process.env.NEXT_PUBLIC_HIBP_PROXY_URL ||
-    'http://localhost:8000'
+    'http://backend:8000'
   ).replace(/\/$/, '');
   const apiKey = process.env.HIBP_API_KEY ?? '';
 
