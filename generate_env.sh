@@ -12,5 +12,5 @@ DIR="$(cd "$(dirname "$0")" && pwd)"
 cp "$DIR/pwned-proxy-frontend/app-main/.env.local.example" \
    "$DIR/pwned-proxy-frontend/app-main/.env.local"
 
-echo "Environment files created. Please edit .env and .env.local to add your" \
-     "HIBP key and domains."
+echo "Environment files created. Add your HIBP key to .env and configure your" \
+     "domains in .env.local."
