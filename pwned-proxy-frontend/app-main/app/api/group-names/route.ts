@@ -1,9 +1,12 @@
 import { NextResponse } from 'next/server';
 
 export async function GET() {
+  // Always prefer the internal backend URL when available. Falling back to the
+  // backend container hostname ensures the API can be reached when the public
+  // URL (often pointing to localhost) isn't accessible from within the
+  // container network.
   const baseUrl = (
     process.env.HIBP_PROXY_INTERNAL_URL ||
-    process.env.NEXT_PUBLIC_HIBP_PROXY_URL ||
     'http://backend:8000'
   ).replace(/\/$/, '');
   const apiKey = process.env.HIBP_API_KEY ?? '';
