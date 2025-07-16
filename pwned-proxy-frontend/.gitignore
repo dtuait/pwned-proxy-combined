@@ -15,4 +15,5 @@
 node_modules
 .next
 app-main/.env.local
+!app-main/.env.local
 app-main/package-lock.json
