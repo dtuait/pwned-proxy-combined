@@ -19,8 +19,8 @@ helper will create it for you and automatically generate secure defaults for
 ```
 
 This populates `.env` using the provided `.env.example` template and should be
-run before starting Docker or the Dev Container. Edit the created file and
-replace any remaining placeholders as needed.
+run before starting Docker or the Dev Container. After generation edit the file
+to supply your domain names and `HIBP_API_KEY`.
 
 Set `DJANGO_DEBUG=true` in your `.env` to enable Django's debug mode.
 
