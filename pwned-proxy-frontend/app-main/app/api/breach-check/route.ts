@@ -14,8 +14,12 @@ export async function POST(request: NextRequest) {
     }
 
     // Server‑side call to your Django API – no CORS issues here
+    const baseUrl = (
+      process.env.NEXT_PUBLIC_HIBP_PROXY_URL ||
+      'http://api.haveibeenpwned.cert.dk'
+    ).replace(/\/$/, '');
     const response = await fetch(
-      `https://api.dtuaitsoc.ngrok.dev/api/breached-account/${encodeURIComponent(email)}/`,
+      `${baseUrl}/api/v3/breachedaccount/${encodeURIComponent(email)}?includeUnverified=true`,
       {
         method: 'GET',
         headers: {

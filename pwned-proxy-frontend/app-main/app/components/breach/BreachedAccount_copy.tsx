@@ -35,11 +35,16 @@ export default function BreachCheckerPage() {
   const testCorsCapabilities = async () => {
     addDebug('TEST', 'Testing CORS capabilities...');
     
+    const baseUrl = (
+      process.env.NEXT_PUBLIC_HIBP_PROXY_URL ||
+      'http://api.haveibeenpwned.cert.dk'
+    ).replace(/\/$/, '');
+
     try {
       // Test 1: Basic request without custom headers
       addDebug('TEST', 'Test 1: Basic request without custom headers');
       const basicResponse = await fetch(
-        `https://api.dtuaitsoc.ngrok.dev/api/breached-account/test%40example.com/`,
+        `${baseUrl}/api/v3/breachedaccount/test%40example.com?includeUnverified=true`,
         {
           method: 'GET',
           headers: {
@@ -61,11 +66,11 @@ export default function BreachCheckerPage() {
       // Test 2: OPTIONS request to check CORS headers
       addDebug('TEST', 'Test 2: OPTIONS preflight request');
       const optionsResponse = await fetch(
-        `https://api.dtuaitsoc.ngrok.dev/api/breached-account/test%40example.com/`,
+        `${baseUrl}/api/v3/breachedaccount/test%40example.com?includeUnverified=true`,
         {
           method: 'OPTIONS',
           headers: {
-            'Origin': 'https://dtuaitsoc.ngrok.dev',
+            'Origin': window.location.origin,
             'Access-Control-Request-Method': 'GET',
             'Access-Control-Request-Headers': 'x-api-key',
           },
@@ -83,7 +88,12 @@ export default function BreachCheckerPage() {
 
   const handleBreachCheck = async () => {
     if (!email || !session) return;
-    
+
+    const baseUrl = (
+      process.env.NEXT_PUBLIC_HIBP_PROXY_URL ||
+      'http://api.haveibeenpwned.cert.dk'
+    ).replace(/\/$/, '');
+
     setLoading(true);
     setError(null);
     setSearched(false);
@@ -113,7 +123,7 @@ export default function BreachCheckerPage() {
         userAgent: navigator.userAgent.substring(0, 50) + '...'
       });
 
-      const apiUrl = `https://api.dtuaitsoc.ngrok.dev/api/breached-account/${encodedEmail}/`;
+      const apiUrl = `${baseUrl}/api/v3/breachedaccount/${encodedEmail}?includeUnverified=true`;
       addDebug('URL', 'Target URL constructed', apiUrl);
 
       const requestHeaders = {

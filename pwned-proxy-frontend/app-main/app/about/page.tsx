@@ -44,10 +44,10 @@ export default function AboutPage() {
         <p className="text-lg text-gray-800">
           Contact
           <a
-            href="mailto:itsecurity@dtu.dk"
+            href={`mailto:${process.env.NEXT_PUBLIC_CONTACT_EMAIL ?? 'itsecurity@dtu.dk'}`}
             className="underline text-blue-600 ml-1"
           >
-            itsecurity@dtu.dk
+            {process.env.NEXT_PUBLIC_CONTACT_EMAIL ?? 'itsecurity@dtu.dk'}
           </a>
           to request access.
         </p>

@@ -17,7 +17,7 @@
 					}
 				],
 				"url": {
-					"raw": "https://preview.api.haveibeenpwned.cert.dk/api/v3/subscribeddomains",
+					"raw": "http://api.haveibeenpwned.cert.dk/api/v3/subscribeddomains",
 					"protocol": "https",
 					"host": [
 						"api",
@@ -47,7 +47,7 @@
 					}
 				],
 				"url": {
-					"raw": "https://preview.api.haveibeenpwned.cert.dk/api/v3/subscription/status",
+					"raw": "http://api.haveibeenpwned.cert.dk/api/v3/subscription/status",
 					"protocol": "https",
 					"host": [
 						"api",
@@ -78,7 +78,7 @@
 					}
 				],
 				"url": {
-					"raw": "https://preview.api.haveibeenpwned.cert.dk/api/v3/breacheddomain/dtu.dk",
+					"raw": "http://api.haveibeenpwned.cert.dk/api/v3/breacheddomain/dtu.dk",
 					"protocol": "https",
 					"host": [
 						"api",
@@ -109,7 +109,7 @@
 					}
 				],
 				"url": {
-					"raw": "https://preview.api.haveibeenpwned.cert.dk/api/v3/dataclasses",
+					"raw": "http://api.haveibeenpwned.cert.dk/api/v3/dataclasses",
 					"protocol": "https",
 					"host": [
 						"api",
@@ -139,7 +139,7 @@
 					}
 				],
 				"url": {
-					"raw": "https://preview.api.haveibeenpwned.cert.dk/api/v3/breachedaccount/juva@dtu.dk",
+					"raw": "http://api.haveibeenpwned.cert.dk/api/v3/breachedaccount/juva@dtu.dk",
 					"protocol": "https",
 					"host": [
 						"api",
@@ -170,7 +170,7 @@
 					}
 				],
 				"url": {
-					"raw": "https://preview.api.haveibeenpwned.cert.dk/api/v3/breaches",
+					"raw": "http://api.haveibeenpwned.cert.dk/api/v3/breaches",
 					"protocol": "https",
 					"host": [
 						"api",
@@ -200,7 +200,7 @@
 					}
 				],
 				"url": {
-					"raw": "https://preview.api.haveibeenpwned.cert.dk/api/v3/breach/Adobe",
+					"raw": "http://api.haveibeenpwned.cert.dk/api/v3/breach/Adobe",
 					"protocol": "https",
 					"host": [
 						"api",
@@ -231,7 +231,7 @@
 					}
 				],
 				"url": {
-					"raw": "https://preview.api.haveibeenpwned.cert.dk/api/v3/pasteaccount/mpark@dtu.dk",
+					"raw": "http://api.haveibeenpwned.cert.dk/api/v3/pasteaccount/mpark@dtu.dk",
 					"protocol": "https",
 					"host": [
 						"api",
@@ -263,7 +263,7 @@
 					}
 				],
 				"url": {
-					"raw": "https://preview.api.haveibeenpwned.cert.dk/api/v3/stealerlogsbyemaildomain/ruc.dk",
+					"raw": "http://api.haveibeenpwned.cert.dk/api/v3/stealerlogsbyemaildomain/ruc.dk",
 					"protocol": "https",
 					"host": [
 						"api",
@@ -294,7 +294,7 @@
 					}
 				],
 				"url": {
-					"raw": "https://preview.api.haveibeenpwned.cert.dk/api/v3/stealerlogsbyemail/rele@dtu.dk",
+					"raw": "http://api.haveibeenpwned.cert.dk/api/v3/stealerlogsbyemail/rele@dtu.dk",
 					"protocol": "https",
 					"host": [
 						"api",
@@ -325,7 +325,7 @@
 					}
 				],
 				"url": {
-					"raw": "https://preview.api.haveibeenpwned.cert.dk/api/v3/stealerlogsbywebsitedomain/dtu.dk",
+					"raw": "http://api.haveibeenpwned.cert.dk/api/v3/stealerlogsbywebsitedomain/dtu.dk",
 					"protocol": "https",
 					"host": [
 						"api",
@@ -351,7 +351,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "https://preview.api.haveibeenpwned.cert.dk/range/5BAA6",
+					"raw": "http://api.haveibeenpwned.cert.dk/range/5BAA6",
 					"protocol": "https",
 					"host": [
 						"api",
