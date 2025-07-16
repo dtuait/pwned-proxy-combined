@@ -16,15 +16,24 @@ class Command(BaseCommand):
             return
 
         created = False
-        if not HIBPKey.objects.exists():
+        hibp_obj = HIBPKey.objects.first()
+
+        if hibp_obj:
+            if hibp_obj.api_key != hibp_key_env:
+                hibp_obj.api_key = hibp_key_env
+                if not hibp_obj.description:
+                    hibp_obj.description = 'Updated key from .env'
+                hibp_obj.save()
+                self.stdout.write(self.style.SUCCESS('Updated HIBP API key.'))
+            else:
+                self.stdout.write('HIBP API key already configured and up to date.')
+        else:
             HIBPKey.objects.create(api_key=hibp_key_env, description='Initial key from .env')
             self.stdout.write(self.style.SUCCESS('Added HIBP API key.'))
             created = True
-        else:
-            self.stdout.write('HIBP API key already configured.')
 
         if not created:
-            # If key already existed we assume initial setup already ran
+            # Key already existed; nothing else to set up
             return
 
         # Import domains
