@@ -30,56 +30,26 @@ assumes `domainthatyouown.com` and `api.domainthatyouown.com` are proxied to
 git clone https://github.com/dtuait/pwned-proxy-combined
 ```
 
-### 2. Prepare backend environment
+### 2. Backend environment
 
-Generate the `.env` file by running `generate_env.sh` inside the backend
-directory. This creates `.env` with random values, including a secure
-PostgreSQL password for the production database:
+The repository ships with a pre-generated `pwned-proxy-backend/.env` so you can
+run the stack right away. If you prefer unique credentials you can regenerate
+this file at any time:
 
 
-
-Example output:
 
 ```bash
 cd pwned-proxy-backend && ./generate_env.sh
-#### Example output
-
-user@srv:~/Projects/pwned-proxy-combined/pwned-proxy-backend
-$ cat ./pwned-proxy-combined/pwned-proxy-backend/.env
-# Environment configuration for Pwned Proxy
-# Copy this file to `.env` and replace the placeholder values.
-# Generate strong values at https://www.random.org/passwords/?num=5&len=32&format=html&rnd=new
-
-# PostgreSQL configuration
-POSTGRES_HOST=db
-POSTGRES_PORT=5432
-POSTGRES_DB=production-db
-POSTGRES_USER=postgres
-POSTGRES_PASSWORD=ElxMBu0b5Ya9165uCmbEXQ
-
-# Django secret key
-DJANGO_SECRET_KEY=nm_9d0Wcm14CwG2e54bG15L0Op0RnBqj3KcKCFxUNBibSBrbANR2n6G41Ji4Lx2tPwg
-
-# These can be left empty; startup scripts will handle them
-DJANGO_SUPERUSER_USERNAME=admin
-DJANGO_SUPERUSER_PASSWORD=c0mcj8OxwMBwnZE1nyTpEQ
-HIBP_API_KEY=
-SERVICE_FQDN_APP=api.domainthatyouown.com
-PWNED_PROXY_DOMAIN=api.domainthatyouown.com
-
-# Set to 'true' to enable Django debug mode
-DJANGO_DEBUG=false
 ```
 
 
 ### 3. Configure the frontend
 
-Copy the example configuration and provide your HIBP and optional Google
-Analytics keys:
+`pwned-proxy-frontend/app-main/.env.local` is also included. Adjust the values if
+you want to connect to a different backend or supply analytics keys:
 
 ```bash
 cd ../pwned-proxy-frontend/app-main
-cp .env.local.example .env.local
 nano .env.local
 NEXT_PUBLIC_HIBP_PROXY_URL=http://api.domainthatyouown.com/
 NEXT_PUBLIC_GA_MEASUREMENT_ID=<google_analytics_measurement_id> # add if you analytics
