@@ -1,5 +1,5 @@
 {
-    "python.defaultInterpreterPath": "/usr/local/bin/python",
+    "python.defaultInterpreterPath": "/usr/venv/backend/bin/python",
     "python.terminal.activateEnvironment": false,
     "typescript.preferences.importModuleSpecifier": "relative",
     "editor.formatOnSave": true,

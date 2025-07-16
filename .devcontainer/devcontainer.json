@@ -8,7 +8,7 @@
     "customizations": {
         "vscode": {
             "settings": {
-                "python.defaultInterpreterPath": "/usr/local/bin/python"
+                "python.defaultInterpreterPath": "/usr/venv/backend/bin/python"
             },
             "extensions": [
                 "ms-python.vscode-pylance",
