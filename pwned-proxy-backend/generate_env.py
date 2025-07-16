@@ -18,8 +18,11 @@ TARGETS = {
 }
 
 PLACEHOLDERS = {
-    'DJANGO_SECRET_KEY': '<django_secret_key>',
-    'POSTGRES_PASSWORD': '<postgres_password>',
+    'DJANGO_SECRET_KEY': '<long-secret-key>',
+    'POSTGRES_PASSWORD': '<long-secret-password>',
+    'DJANGO_SUPERUSER_PASSWORD': '<long-secret-password>',
+    'HIBP_API_KEY': '<long-hibp-api-key>',
+    'DEVCONTAINER_NGROK_AUTHTOKEN': '<long-ngrok-token>',
 }
 
 
