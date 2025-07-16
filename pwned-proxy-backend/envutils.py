@@ -25,6 +25,7 @@ def ensure_env(base_dir: Path) -> None:
         # Provide database settings so `manage.py runserver` works without
         # running `generate_env.sh` first. These match the defaults used by
         # Docker Compose.
+        'POSTGRES_HOST': 'db',
         'POSTGRES_DB': 'dev-db',
         'POSTGRES_USER': 'postgres',
         'POSTGRES_PASSWORD': secrets.token_urlsafe(16),

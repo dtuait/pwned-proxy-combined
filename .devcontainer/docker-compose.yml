@@ -11,6 +11,7 @@ services:
       - "3000:3000"
     environment:
       - PYTHONPATH=/usr/src/project
+      - POSTGRES_HOST=dev-db
     depends_on:
       - dev-db
     networks:
