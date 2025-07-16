@@ -1,7 +1,7 @@
 export const API_CONFIG = {
   BASE_URL:
     process.env.NEXT_PUBLIC_HIBP_PROXY_URL ||
-    'http://api.haveibeenpwned.cert.dk',
+    'http://localhost:8000',
   ENDPOINTS: {
     // Endpoints that require email + apikey
     BREACHED_ACCOUNT: '/breached-account',           // GET 5) Breached Account (by email)

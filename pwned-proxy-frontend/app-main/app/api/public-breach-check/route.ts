@@ -7,7 +7,7 @@ export async function POST(request: NextRequest) {
     // Server-side call to the Django API without requiring Authorization
     const baseUrl = (
       process.env.NEXT_PUBLIC_HIBP_PROXY_URL ||
-      'http://api.haveibeenpwned.cert.dk'
+      'http://localhost:8000'
     ).replace(/\/$/, '');
     const apiUrl = `${baseUrl}/api/v3/breachedaccount/${encodeURIComponent(email)}?includeUnverified=true`;
     const response = await fetch(apiUrl, {
