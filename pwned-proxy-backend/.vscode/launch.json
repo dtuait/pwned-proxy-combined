@@ -11,7 +11,7 @@
             "name": "ServerLive: localhost_debug_true_settings",
             "type": "debugpy",
             "request": "launch",
-            "program": "${workspaceFolder}/app-main/manage.py",
+            "program": "${workspaceFolder}/manage.py",
             "args": [
                 "runserver",
                 "0.0.0.0:3000",
@@ -25,7 +25,7 @@
             "name": "ServerLive: localhost_production_settings",
             "type": "debugpy",
             "request": "launch",
-            "program": "${workspaceFolder}/app-main/manage.py",
+            "program": "${workspaceFolder}/manage.py",
             "args": [
                 "runserver",
                 "0.0.0.0:8000",

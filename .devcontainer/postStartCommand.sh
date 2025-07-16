@@ -30,7 +30,7 @@ set +a
 
 # Apply migrations and create the default admin user
 /usr/venv/backend/bin/python pwned-proxy-backend/app-main/wait_for_db.py
-/usr/venv/backend/bin/python pwned-proxy-backend/app-main/manage.py migrate --noinput
+/usr/venv/backend/bin/python pwned-proxy-backend/manage.py migrate --noinput
 /usr/venv/backend/bin/python pwned-proxy-backend/app-main/create_admin.py
 
 # Copy frontend env if missing
