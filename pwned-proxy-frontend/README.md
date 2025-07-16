@@ -4,7 +4,7 @@
 
 Copy `.env.local.example` to `.env.local` and adjust `NEXT_PUBLIC_HIBP_PROXY_URL`
 if you wish to use a different API location. By default it points to
-`https://preview.api.haveibeenpwned.cert.dk/`. This variable is read by the
+`http://api.haveibeenpwned.cert.dk/`. This variable is read by the
 start page and the header link so it also works when deployed with Coolify.
 
 ### Google Analytics
@@ -27,5 +27,5 @@ after changing environment variables.
 Set `NEXT_PUBLIC_CONTACT_EMAIL` in `.env.local` to display a contact address on the About page:
 
 ```bash
-NEXT_PUBLIC_CONTACT_EMAIL=itsecurity@dtu.dk
+NEXT_PUBLIC_CONTACT_EMAIL=cert@cert.dk
 ```

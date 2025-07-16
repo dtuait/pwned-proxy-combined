@@ -20,8 +20,12 @@ export default function WelcomePage() {
 
   async function fetchStealerLogs() {
     try {
+      const baseUrl = (
+        process.env.NEXT_PUBLIC_HIBP_PROXY_URL ||
+        'http://api.haveibeenpwned.cert.dk'
+      ).replace(/\/$/, '');
       const res = await fetch(
-        'https://api.dtuaitsoc.ngrok.dev/api/stealer-logs/dtu.dk/',
+        `${baseUrl}/api/v3/stealer-logs-domain/dtu.dk/`,
         { headers: { Authorization: `Bearer ${session!.accessToken}` } }
       );
       if (!res.ok) throw new Error(`Fetch failed: ${res.status}`);
@@ -106,7 +110,7 @@ export default function WelcomePage() {
           <iframe
             src={
               process.env.NEXT_PUBLIC_HIBP_PROXY_URL ||
-              'https://preview.api.haveibeenpwned.cert.dk/'
+              'http://api.haveibeenpwned.cert.dk/'
             }
             title="Backend API Preview"
             className="w-full min-h-full"
@@ -117,7 +121,7 @@ export default function WelcomePage() {
         <a
           href={
             process.env.NEXT_PUBLIC_HIBP_PROXY_URL ||
-            'https://preview.api.haveibeenpwned.cert.dk/'
+            'http://api.haveibeenpwned.cert.dk/'
           }
           target="_blank"
           rel="noopener noreferrer"

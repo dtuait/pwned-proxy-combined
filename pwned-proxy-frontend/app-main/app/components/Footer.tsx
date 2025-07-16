@@ -90,24 +90,15 @@ export default function Footer() {
 
       {/* Right side: GitHub links and message */}
       <div className="text-sm flex items-center space-x-3">
-        <span>© {new Date().getFullYear()} My Next.js App</span>
+        <span>© {new Date().getFullYear()} Pwned Proxy</span>
         <a
-          href="https://github.com/dtuait/pwned-proxy-frontend"
+          href="https://github.com/dtuait/pwned-proxy-combined"
           target="_blank"
           rel="noopener noreferrer"
           className="flex items-center hover:underline"
         >
           <Github className="w-4 h-4 mr-1" />
-          Frontend
-        </a>
-        <a
-          href="https://github.com/dtuait/pwned-proxy"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="flex items-center hover:underline"
-        >
-          <Github className="w-4 h-4 mr-1" />
-          Backend
+          GitHub
         </a>
         <span>Get involved on GitHub!</span>
       </div>
