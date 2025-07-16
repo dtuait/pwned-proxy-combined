@@ -4,6 +4,12 @@ set -e
 # Validate environment before starting
 /usr/src/venvs/app-main/bin/python /usr/src/project/check_env.py
 
+# Ensure the Django package path is available when gunicorn
+# tries to import ``pwned_proxy.wsgi``. ``manage.py`` modifies
+# ``sys.path`` but gunicorn performs the import before any
+# project code runs, so the path must be configured here.
+export PYTHONPATH="/usr/src/project:/usr/src/project/app-main${PYTHONPATH:+:$PYTHONPATH}"
+
 
 # Ensure we can write to the STATIC_ROOT directory even if a
 # stale container image left it owned by root. This mirrors the
