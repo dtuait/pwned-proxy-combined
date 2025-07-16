@@ -14,11 +14,11 @@ export async function POST(request: NextRequest) {
     }
 
     // Server‑side call to your Django API – no CORS issues here
-    const baseUrl = (
-      process.env.HIBP_PROXY_INTERNAL_URL ||
-      process.env.NEXT_PUBLIC_HIBP_PROXY_URL ||
-      'http://backend:8000'
-    ).replace(/\/$/, '');
+  // Prefer the internal backend hostname when running inside Docker.
+  const baseUrl = (
+    process.env.HIBP_PROXY_INTERNAL_URL ||
+    'http://backend:8000'
+  ).replace(/\/$/, '');
     const response = await fetch(
       `${baseUrl}/api/v3/breachedaccount/${encodeURIComponent(email)}?includeUnverified=true`,
       {
