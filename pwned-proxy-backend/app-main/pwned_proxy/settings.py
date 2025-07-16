@@ -50,6 +50,8 @@ PWNED_PROXY_DOMAIN = os.environ.get(
 ALLOWED_HOSTS = [
     "localhost",
     "127.0.0.1",
+    # Hostname used by the frontend container when communicating internally
+    "backend",
     "dtuaitsoc.ngrok.dev",
     "api.dtuaitsoc.ngrok.dev",
     PWNED_PROXY_DOMAIN,
