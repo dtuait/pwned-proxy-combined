@@ -3,8 +3,15 @@ set -e
 
 echo "Running postStartCommand.sh..."
 
-# Install backend Python dependencies
-pip install --no-cache-dir -r pwned-proxy-backend/requirements.txt
+
+# Ensure Python virtual environment exists
+if [ ! -d /usr/venv/backend ]; then
+    python -m venv /usr/venv/backend
+fi
+
+# Install backend Python dependencies inside the virtual environment
+/usr/venv/backend/bin/pip install --no-cache-dir -r pwned-proxy-backend/.devcontainer/requirements.txt
+
 
 # Install frontend Node dependencies
 pushd pwned-proxy-frontend/app-main >/dev/null
