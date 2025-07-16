@@ -12,11 +12,12 @@
             ],
             "django": true,
             "justMyCode": true,
+            "python": "/usr/venv/backend/bin/python",
             "cwd": "${workspaceFolder}/pwned-proxy-backend",
             "env": {
                 "DJANGO_DEBUG": "true"
             }
-        } 
+        }
         
     ]
 }

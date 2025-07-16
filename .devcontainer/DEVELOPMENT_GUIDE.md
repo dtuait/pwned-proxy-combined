@@ -10,23 +10,28 @@
    ./generate_env.sh
    ```
 
-2. **Install Python dependencies:**
+2. **Activate the backend virtual environment:**
+   ```bash
+   source /usr/venv/backend/bin/activate
+   ```
+
+3. **Install Python dependencies:**
    ```bash
    pip install -r requirements.txt
    ```
 
-3. **Run database migrations:**
+4. **Run database migrations:**
    ```bash
    cd /usr/src/project/pwned-proxy-backend
    python manage.py migrate
    ```
 
-4. **Create a superuser (optional):**
+5. **Create a superuser (optional):**
    ```bash
    python manage.py createsuperuser
    ```
 
-5. **Start the Django development server:**
+6. **Start the Django development server:**
    ```bash
    python manage.py runserver 0.0.0.0:8000
    ```
@@ -39,6 +44,7 @@ If you prefer to work from the app-main directory:
 
 ```bash
 cd /usr/src/project/pwned-proxy-backend/app-main
+source /usr/venv/backend/bin/activate
 python manage.py runserver 0.0.0.0:8000
 ```
 
@@ -86,6 +92,10 @@ Make sure to create the necessary environment files:
 
 1. Start the devcontainer
 2. Database will start automatically
-3. Run backend: `python manage.py runserver 0.0.0.0:8000`
+3. Activate the virtual environment and run the backend:
+   ```bash
+   source /usr/venv/backend/bin/activate
+   python manage.py runserver 0.0.0.0:8000
+   ```
 4. Run frontend: Use VS Code task or `npm run dev`
 5. Access the application at `http://localhost:3000`
