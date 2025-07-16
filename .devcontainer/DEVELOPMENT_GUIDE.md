@@ -4,7 +4,9 @@
 
 ### In Development Container
 
-1. **Set up environment variables:**
+1. **Set up environment variables (optional):**
+   The dev container automatically generates `pwned-proxy-backend/.env` on first
+   start. Re-run `generate_env.sh` only if you want to regenerate the file.
    ```bash
    cd /usr/src/project/pwned-proxy-backend
    ./generate_env.sh
@@ -15,23 +17,13 @@
    source /usr/venv/backend/bin/activate
    ```
 
-3. **Install Python dependencies:**
+3. **Install Python dependencies (optional):**
+   Dependencies are installed during container startup, but you can run this
+   command to update them.
    ```bash
    pip install -r requirements.txt
    ```
-
-4. **Run database migrations:**
-   ```bash
-   cd /usr/src/project/pwned-proxy-backend
-   python manage.py migrate
-   ```
-
-5. **Create a superuser (optional):**
-   ```bash
-   python manage.py createsuperuser
-   ```
-
-6. **Start the Django development server:**
+4. **Start the Django development server:**
    ```bash
    python manage.py runserver 0.0.0.0:8000
    ```

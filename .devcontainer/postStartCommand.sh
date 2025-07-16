@@ -23,6 +23,11 @@ if [ ! -f pwned-proxy-backend/.env ]; then
     (cd pwned-proxy-backend && ./generate_env.sh)
 fi
 
+# Apply migrations and create the default admin user
+/usr/venv/backend/bin/python pwned-proxy-backend/app-main/wait_for_db.py
+/usr/venv/backend/bin/python pwned-proxy-backend/app-main/manage.py migrate --noinput
+/usr/venv/backend/bin/python pwned-proxy-backend/app-main/create_admin.py
+
 # Copy frontend env if missing
 if [ ! -f pwned-proxy-frontend/app-main/.env.local ]; then
     cp pwned-proxy-frontend/app-main/.env.local.example pwned-proxy-frontend/app-main/.env.local
