@@ -16,22 +16,7 @@
             "env": {
                 "DJANGO_DEBUG": "true"
             }
-        },
-        {
-            "name": "Python: Django (app-main)",
-            "type": "python",
-            "request": "launch",
-            "program": "${workspaceFolder}/pwned-proxy-backend/app-main/manage.py",
-            "args": [
-                "runserver",
-                "0.0.0.0:8000"
-            ],
-            "django": true,
-            "justMyCode": true,
-            "cwd": "${workspaceFolder}/pwned-proxy-backend/app-main",
-            "env": {
-                "DJANGO_DEBUG": "true"
-            }
-        }
+        } 
+        
     ]
 }
