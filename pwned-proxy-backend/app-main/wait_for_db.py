@@ -2,9 +2,9 @@ import time
 import os
 import psycopg2
 
-host = os.getenv('POSTGRES_HOST', 'db')
+host = os.getenv('POSTGRES_HOST', 'dev-db')
 port = int(os.getenv('POSTGRES_PORT', 5432))
-db = os.getenv('POSTGRES_DB', 'db')
+db = os.getenv('POSTGRES_DB', 'dev-db')
 user = os.getenv('POSTGRES_USER', 'postgres')
 password = os.getenv('POSTGRES_PASSWORD', '')
 

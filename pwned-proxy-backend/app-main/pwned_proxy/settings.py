@@ -137,10 +137,10 @@ WSGI_APPLICATION = 'pwned_proxy.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.getenv('POSTGRES_DB', 'db'),
+        'NAME': os.getenv('POSTGRES_DB', 'dev-db'),
         'USER': os.getenv('POSTGRES_USER', 'postgres'),
         'PASSWORD': os.getenv('POSTGRES_PASSWORD'),
-        'HOST': 'db',  # matches docker-compose service name
+        'HOST': 'dev-db',  # matches docker-compose service name
         'PORT': '5432',
     }
 }
