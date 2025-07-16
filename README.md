@@ -34,7 +34,8 @@ git clone https://github.com/dtuait/pwned-proxy-combined
 
 
 Run the provided `generate_env.sh` script to create the required environment
-files for both the backend and frontend:
+files for both the backend and frontend. Random secrets are generated
+automatically so you only need to supply your domains and HIBP key afterwards:
 
 ```bash
 ./generate_env.sh
@@ -43,10 +44,10 @@ files for both the backend and frontend:
 
 ### 3. Configure the frontend
 
-This copies `pwned-proxy-frontend/app-main/.env.local.example` to
+The script copies `pwned-proxy-frontend/app-main/.env.local.example` to
 `pwned-proxy-frontend/app-main/.env.local` and generates a new
-`pwned-proxy-backend/.env` with secure defaults. Edit these files to customise
-the URLs or analytics settings as needed.
+`pwned-proxy-backend/.env`. Edit the generated files to set
+`HIBP_API_KEY` and your domain names.
 
 ### 4. Start the stack
 
