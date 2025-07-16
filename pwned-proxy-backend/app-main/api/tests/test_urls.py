@@ -18,6 +18,7 @@ class URLPatternsTest(SimpleTestCase):
             ("latest-breach", {}, views.LatestBreachProxyView),
             ("data-classes", {}, views.DataClassesProxyView),
             ("subscription-status", {}, views.SubscriptionStatusProxyView),
+            ("group-names", {}, views.GroupNamesView),
         ]
         for name, kwargs, view in tests:
             with self.subTest(name=name):
