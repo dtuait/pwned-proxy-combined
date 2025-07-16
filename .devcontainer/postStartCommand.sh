@@ -23,6 +23,11 @@ if [ ! -f pwned-proxy-backend/.env ]; then
     (cd pwned-proxy-backend && ./generate_env.sh)
 fi
 
+# Export backend environment variables so helper scripts can access them
+set -a
+source pwned-proxy-backend/.env
+set +a
+
 # Apply migrations and create the default admin user
 /usr/venv/backend/bin/python pwned-proxy-backend/app-main/wait_for_db.py
 /usr/venv/backend/bin/python pwned-proxy-backend/app-main/manage.py migrate --noinput
