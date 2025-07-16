@@ -22,6 +22,12 @@ def ensure_env(base_dir: Path) -> None:
         'DJANGO_SUPERUSER_USERNAME': f"admin_{secrets.token_hex(4)}",
         'DJANGO_SUPERUSER_PASSWORD': secrets.token_urlsafe(16),
         'DJANGO_DEBUG': 'false',
+        # Provide database settings so `manage.py runserver` works without
+        # running `generate_env.sh` first. These match the defaults used by
+        # Docker Compose.
+        'POSTGRES_DB': 'db',
+        'POSTGRES_USER': 'postgres',
+        'POSTGRES_PASSWORD': secrets.token_urlsafe(16),
     }
 
     with open(env_path, 'w') as fh:
