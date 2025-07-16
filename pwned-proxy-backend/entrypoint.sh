@@ -12,11 +12,11 @@ set -e
 STATIC_ROOT=/usr/src/project/app-main/staticfiles
 sudo install -d -m 0755 "$STATIC_ROOT" && sudo chown appuser:appuser "$STATIC_ROOT"
 
-/usr/src/venvs/app-main/bin/python wait_for_db.py
+/usr/src/venvs/app-main/bin/python app-main/wait_for_db.py
 
 /usr/src/venvs/app-main/bin/python manage.py migrate --noinput
 /usr/src/venvs/app-main/bin/python manage.py collectstatic --noinput
-/usr/src/venvs/app-main/bin/python create_admin.py
+/usr/src/venvs/app-main/bin/python app-main/create_admin.py
 # Run one-time setup tasks if HIBP_API_KEY is configured
 /usr/src/venvs/app-main/bin/python manage.py initial_setup || true
 
