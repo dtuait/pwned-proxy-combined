@@ -454,5 +454,6 @@ class GroupNamesView(LoggedAPIView):
 
     @swagger_auto_schema(auto_schema=None)
     def get(self, request):
+        print("[backend] GroupNamesView reached")
         names = list(Group.objects.order_by("name").values_list("name", flat=True))
         return Response(names, status=200)
