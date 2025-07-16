@@ -1,0 +1,23 @@
+{
+    "name": "Dev container: pwned-proxy-combined",
+    "build": {
+        "dockerfile": "Dockerfile"
+    },
+    "workspaceFolder": "/workspace",
+    "remoteUser": "root",
+    "forwardPorts": [8000, 3000],
+    "customizations": {
+        "vscode": {
+            "settings": {
+                "python.defaultInterpreterPath": "/usr/local/bin/python"
+            },
+            "extensions": [
+                "ms-python.vscode-pylance",
+                "ms-python.python",
+                "dbaeumer.vscode-eslint",
+                "esbenp.prettier-vscode"
+            ]
+        }
+    },
+    "postStartCommand": "bash .devcontainer/postStartCommand.sh"
+}

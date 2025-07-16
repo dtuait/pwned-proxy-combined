@@ -1,0 +1,32 @@
+#!/bin/bash
+set -e
+
+echo "Running postStartCommand.sh..."
+
+# Install backend Python dependencies
+pip install --no-cache-dir -r pwned-proxy-backend/.devcontainer/requirements.txt
+
+# Install frontend Node dependencies
+pushd pwned-proxy-frontend/app-main >/dev/null
+npm install
+popd >/dev/null
+
+# Generate backend env files if missing
+if [ ! -f pwned-proxy-backend/.env ]; then
+    (cd pwned-proxy-backend && ./generate_env.sh)
+fi
+
+# Copy frontend env if missing
+if [ ! -f pwned-proxy-frontend/app-main/.env.local ]; then
+    cp pwned-proxy-frontend/app-main/.env.local.example pwned-proxy-frontend/app-main/.env.local
+fi
+
+# Configure ngrok when token provided
+if [ -n "${DEVCONTAINER_NGROK_AUTHTOKEN}" ]; then
+    curl -sSL https://ngrok-agent.s3.amazonaws.com/ngrok.asc |
+        tee /etc/apt/trusted.gpg.d/ngrok.asc >/dev/null
+    echo "deb https://ngrok-agent.s3.amazonaws.com buster main" |
+        tee /etc/apt/sources.list.d/ngrok.list
+    apt-get update && apt-get install -y ngrok
+    ngrok config add-authtoken "$DEVCONTAINER_NGROK_AUTHTOKEN"
+fi
