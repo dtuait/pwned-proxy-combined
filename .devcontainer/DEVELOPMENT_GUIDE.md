@@ -76,10 +76,10 @@ Use `Ctrl+Shift+P` → "Tasks: Run Task" and select:
 ## Database
 
 The PostgreSQL database is automatically started with the devcontainer and is accessible at:
-- **Host**: `db` (from within devcontainer) or `localhost` (from host)
+- **Host**: `dev-db` (from within devcontainer) or `localhost` (from host)
 - **Port**: `5432`
-- **Database**: `pwned_proxy`
-- **Username**: `postgres` 
+- **Database**: `dev-db`
+- **Username**: `postgres`
 - **Password**: `postgres`
 
 ## Environment Files

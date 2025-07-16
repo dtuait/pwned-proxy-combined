@@ -49,7 +49,7 @@ $ cat ./pwned-proxy-combined/pwned-proxy-backend/.env
 # Generate strong values at https://www.random.org/passwords/?num=5&len=32&format=html&rnd=new
 
 # PostgreSQL configuration
-POSTGRES_DB=db
+POSTGRES_DB=dev-db
 POSTGRES_USER=postgres
 POSTGRES_PASSWORD=ElxMBu0b5Ya9165uCmbEXQ
 

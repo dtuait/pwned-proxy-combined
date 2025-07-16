@@ -12,28 +12,28 @@ services:
     environment:
       - PYTHONPATH=/usr/src/project
     depends_on:
-      - db
+      - dev-db
     networks:
       - devnet
     stdin_open: true
     tty: true
     command: sleep infinity
 
-  db:
+  dev-db:
     image: postgres:14-alpine
     environment:
-      - POSTGRES_DB=pwned_proxy
+      - POSTGRES_DB=dev-db
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - de:/var/lib/postgresql/data
     ports:
       - "5432:5432"
     networks:
       - devnet
 
 volumes:
-  postgres_data:
+  de:
 
 networks:
   devnet:
