@@ -119,11 +119,10 @@
         {
             "label": "Start Backend (Django)",
             "type": "shell",
-            "command": "/usr/venv/backend/bin/python",
+            "command": "bash",
             "args": [
-                "manage.py",
-                "runserver",
-                "0.0.0.0:8000"
+                "-c",
+                "source /usr/venv/backend/bin/activate && python manage.py runserver 0.0.0.0:8000"
             ],
             "options": {
                 "cwd": "${workspaceFolder}/pwned-proxy-backend"
@@ -161,10 +160,10 @@
         {
             "label": "Django Migrate",
             "type": "shell",
-            "command": "/usr/venv/backend/bin/python",
+            "command": "bash",
             "args": [
-                "manage.py",
-                "migrate"
+                "-c",
+                "source /usr/venv/backend/bin/activate && python manage.py migrate"
             ],
             "options": {
                 "cwd": "${workspaceFolder}/pwned-proxy-backend"
