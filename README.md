@@ -49,7 +49,9 @@ automatically so you only need to supply your domains and HIBP key afterwards:
 The script copies `pwned-proxy-frontend/app-main/.env.local.example` to
 `pwned-proxy-frontend/app-main/.env.local` and generates a new
 `pwned-proxy-backend/.env`. Edit the generated files to set
-`HIBP_API_KEY` and your domain names.
+`HIBP_API_KEY` and your domain names. When running the Docker stack, keep
+`HIBP_PROXY_INTERNAL_URL` set to `http://backend:8000` so the frontend can
+reach the API container.
 
 ### 4. Start the stack
 
