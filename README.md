@@ -32,31 +32,21 @@ git clone https://github.com/dtuait/pwned-proxy-combined
 
 ### 2. Backend environment
 
-The repository ships with a pre-generated `pwned-proxy-backend/.env` so you can
-run the stack right away. If you prefer unique credentials you can regenerate
-this file at any time:
 
-
+Run the provided `generate_env.sh` script to create the required environment
+files for both the backend and frontend:
 
 ```bash
-cd pwned-proxy-backend && ./generate_env.sh
+./generate_env.sh
 ```
 
 
 ### 3. Configure the frontend
 
-`pwned-proxy-frontend/app-main/.env.local` is also included. Adjust the values if
-you want to connect to a different backend or supply analytics keys:
-
-```bash
-cd ../pwned-proxy-frontend/app-main
-nano .env.local
-NEXT_PUBLIC_HIBP_PROXY_URL=http://api.domainthatyouown.com/
-NEXT_PUBLIC_GA_MEASUREMENT_ID=<google_analytics_measurement_id> # add if you analytics
-HIBP_API_KEY=<REQUIRED>
-NEXT_PUBLIC_CONTACT_EMAIL=person@email.com
-
-```
+This copies `pwned-proxy-frontend/app-main/.env.local.example` to
+`pwned-proxy-frontend/app-main/.env.local` and generates a new
+`pwned-proxy-backend/.env` with secure defaults. Edit these files to customise
+the URLs or analytics settings as needed.
 
 ### 4. Start the stack
 
@@ -89,17 +79,11 @@ Generate client API keys and download `seeded_api_keys.json`:
 
 ### 6. Start production
 
-Run the stack in production mode with the following commands executed from the
-repository root:
+Run the stack in production mode by first generating the environment files and
+then building the images:
 
 ```bash
-docker compose build
-docker compose up -d
-```
-
-You can achieve the same result in a single line:
-
-```bash
+./generate_env.sh
 docker compose build && docker compose up -d
 ```
 

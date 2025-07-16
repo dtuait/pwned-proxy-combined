@@ -11,6 +11,9 @@ COMPOSE = BASE_DIR.parent / 'docker-compose.yaml'
 
 
 def parse_compose(path: Path) -> set[str]:
+    """Return all environment variable names referenced in the compose file."""
+    if not path.exists():
+        return set()
     data = yaml.safe_load(path.read_text())
     envs = set()
     for svc in data.get('services', {}).values():

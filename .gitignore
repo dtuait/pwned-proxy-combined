@@ -1,6 +1,5 @@
 # Byte-compiled / optimized / DLL files
 *.env
-!pwned-proxy-backend/.env
 *.old
 *.log
 *.bak
@@ -15,7 +14,6 @@
 
 node_modules
 .next
-app-main/.env.local
-!pwned-proxy-frontend/app-main/.env.local
-app-main/package-lock.json
+pwned-proxy-frontend/app-main/.env.local
+pwned-proxy-frontend/app-main/package-lock.json
 package-lock.json
