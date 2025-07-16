@@ -150,7 +150,7 @@ The container is defined by the root `.devcontainer/docker-compose.yml` and auto
 Use the **ServerLive: localhost_debug_true_settings** launch configuration from `.vscode/launch.json` (press **F5**). This runs:
 
 ```bash
-python app-main/manage.py runserver 0.0.0.0:3000 --settings pwned_proxy.localhost_debug_true_settings
+python manage.py runserver 0.0.0.0:3000 --settings pwned_proxy.localhost_debug_true_settings
 ```
 
 `localhost_debug_true_settings.py` enables `DEBUG` and relaxed CORS, so the app is available at <http://localhost:3000/> for interactive debugging.

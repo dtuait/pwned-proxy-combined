@@ -4,15 +4,14 @@ import os
 import sys
 from pathlib import Path
 
-# When using Docker the working directory might not be the project root
-# (e.g. ``app-main``). Include the parent directory on ``sys.path`` so
-# that ``envutils`` can be imported by ``pwned_proxy.settings``.
+# The working directory may be ``app-main`` when running inside Docker.
+# Ensure both the project root and ``app-main`` are on ``sys.path`` so
+# that ``pwned_proxy.settings`` can import ``envutils`` regardless of
+# where this script is executed.
 BASE_DIR = Path(__file__).resolve().parent
 
-# Ensure both the project root and ``app-main`` are on ``sys.path`` so that
-# Django can locate the ``pwned_proxy`` package regardless of where the script
-# is executed from. This mirrors the logic in ``app-main/manage.py`` which adds
-# the parent directory when executed inside the container.
+# Add both directories to ``sys.path`` so Django can locate the project
+# packages when invoked from the host or the container environment.
 sys.path.append(str(BASE_DIR))
 sys.path.append(str(BASE_DIR / "app-main"))
 
