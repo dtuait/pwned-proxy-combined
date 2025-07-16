@@ -24,7 +24,8 @@ while IFS= read -r raw; do
   key="${line%%=*}"
   default="${line#*=}"
   printf "Enter value for %s [%s]: " "$key" "$default"
-  read -r value
+  # Read from the terminal instead of the redirected file descriptor
+  read -r value < /dev/tty
   if [ -z "$value" ]; then
     if [ "$key" = "NEXTAUTH_SECRET" ]; then
       value="$(openssl rand -base64 32 | tr -d '\n')"
@@ -38,9 +39,9 @@ done < "$DIR/pwned-proxy-frontend/app-main/.env.local.example"
 
 # Prompt for HIBP key and domain
 printf "Enter your HIBP API key (leave blank to skip): "
-read -r hibp_key
+read -r hibp_key < /dev/tty
 printf "Enter domain for the API [localhost:8000]: "
-read -r domain
+read -r domain < /dev/tty
 domain=${domain:-localhost:8000}
 
 # Update backend environment values
