@@ -1,0 +1,41 @@
+version: '3.8'
+
+services:
+  devcontainer:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ../:/usr/src/project
+    working_dir: /usr/src/project
+    ports:
+      - "8000:8000"
+      - "3000:3000"
+    environment:
+      - PYTHONPATH=/usr/src/project
+    depends_on:
+      - db
+    networks:
+      - devnet
+    stdin_open: true
+    tty: true
+    command: sleep infinity
+
+  db:
+    image: postgres:14-alpine
+    environment:
+      - POSTGRES_DB=pwned_proxy
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - devnet
+
+volumes:
+  postgres_data:
+
+networks:
+  devnet:

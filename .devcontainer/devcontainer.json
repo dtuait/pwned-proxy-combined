@@ -1,9 +1,8 @@
 {
     "name": "Dev container: pwned-proxy-combined",
-    "build": {
-        "dockerfile": "Dockerfile"
-    },
-    "workspaceFolder": "/workspace",
+    "dockerComposeFile": "docker-compose.yml",
+    "service": "devcontainer",
+    "workspaceFolder": "/usr/src/project",
     "remoteUser": "root",
     "forwardPorts": [8000, 3000],
     "customizations": {
