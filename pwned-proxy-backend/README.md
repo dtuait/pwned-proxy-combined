@@ -41,8 +41,6 @@ superuser is created automatically. If the `.env` file was generated, all
 generated values including the admin credentials are printed and stored in that
 file so you can reuse them across restarts.
 
-
-
 ### Using a custom domain
 
 When deploying on platforms like Coolify you may receive a unique domain via

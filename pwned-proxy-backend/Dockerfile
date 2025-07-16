@@ -24,4 +24,5 @@ RUN chown -R appuser:appuser /usr/src/project
 USER appuser
 
 EXPOSE 8000
+
 ENTRYPOINT ["/usr/src/project/entrypoint.sh"]
