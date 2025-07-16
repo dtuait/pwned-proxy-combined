@@ -6,16 +6,19 @@ set -e
 DIR="$(cd "$(dirname "$0")" && pwd)"
 
 # Generate backend .env
+echo "Generating backend environment (.env)"
 "$DIR/pwned-proxy-backend/generate_env.sh"
 
 # Copy frontend example
+echo "Creating frontend environment (.env.local)"
 cp "$DIR/pwned-proxy-frontend/app-main/.env.local.example" \
    "$DIR/pwned-proxy-frontend/app-main/.env.local"
 
 frontend_env="$DIR/pwned-proxy-frontend/app-main/.env.local"
 
+echo "\nEnter values for frontend variables"
 # Prompt for frontend variables based on the example file
-while IFS= read -r raw; do
+while IFS= read -r raw || [ -n "$raw" ]; do
   line="$(printf '%s' "$raw" | tr -d '\r')"
   [ -z "$line" ] && continue
   case "$line" in
@@ -37,6 +40,7 @@ while IFS= read -r raw; do
   sed -i "s#^${key}=.*#${key}=${esc}#" "$frontend_env"
 done < "$DIR/pwned-proxy-frontend/app-main/.env.local.example"
 
+echo "\nEnter values for backend variables"
 # Prompt for HIBP key and domain
 printf "Enter your HIBP API key (leave blank to skip): "
 read -r hibp_key < /dev/tty
