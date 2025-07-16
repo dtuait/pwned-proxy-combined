@@ -3,19 +3,19 @@
 import { useEffect, useState } from "react";
 
 export default function AboutPage() {
-  const [domains, setDomains] = useState<string[] | null>(null);
+  const [groups, setGroups] = useState<string[] | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const load = async () => {
       try {
-        const res = await fetch("/api/subscribed-domains");
-        if (!res.ok) throw new Error(`Failed to load domains: ${res.status}`);
+        const res = await fetch("/api/group-names");
+        if (!res.ok) throw new Error(`Failed to load groups: ${res.status}`);
         const data = await res.json();
         if (!Array.isArray(data) || data.length === 0) {
-          throw new Error("No domain list returned");
+          throw new Error("No group list returned");
         }
-        setDomains(data as string[]);
+        setGroups(data as string[]);
       } catch (err) {
         setError((err as Error).message);
       }
@@ -27,7 +27,7 @@ export default function AboutPage() {
     return <div className="p-4 text-red-600">Error: {error}</div>;
   }
 
-  if (!domains) {
+  if (!groups) {
     return <div className="p-4">Loading…</div>;
   }
 
@@ -53,8 +53,8 @@ export default function AboutPage() {
         </p>
         <h2 className="text-xl font-semibold mt-6">Subscribed Universities</h2>
         <ul className="list-disc pl-5 text-left space-y-1">
-          {domains.map((d) => (
-            <li key={d}>{d}</li>
+          {groups.map((g) => (
+            <li key={g}>{g}</li>
           ))}
         </ul>
         {/* Download Postman collection from public/haveibeenpwned.deic.dk.postman_collection_v2.json */}
