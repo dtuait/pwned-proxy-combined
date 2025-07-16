@@ -1,0 +1,23 @@
+{
+    "python.defaultInterpreterPath": "/usr/local/bin/python",
+    "python.terminal.activateEnvironment": false,
+    "typescript.preferences.importModuleSpecifier": "relative",
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+        "source.fixAll.eslint": "explicit"
+    },
+    "files.associations": {
+        "*.env": "dotenv"
+    },
+    "python.linting.enabled": true,
+    "python.linting.pylintEnabled": true,
+    "eslint.workingDirectories": [
+        "pwned-proxy-frontend/app-main"
+    ],
+    "search.exclude": {
+        "**/node_modules": true,
+        "**/__pycache__": true,
+        "**/migrations": true,
+        "**/.git": true
+    }
+}
