@@ -116,3 +116,20 @@ Generate client API keys and download `seeded_api_keys.json`:
 ![Seed keys](https://supabase.vicre-nextjs-01.security.ait.dtu.dk/storage/v1/object/public/hibp-guide/5.2-django-seed-and-download-clienthibpkeys.png)
 
 
+### 6. Start production
+
+Run the stack in production mode with the following commands executed from the
+repository root:
+
+```bash
+docker compose build
+docker compose up -d
+```
+
+You can achieve the same result in a single line:
+
+```bash
+docker compose build && docker compose up -d
+```
+
+
