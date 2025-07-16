@@ -3,7 +3,7 @@ import { NextResponse } from 'next/server';
 export async function GET() {
   const baseUrl = (
     process.env.NEXT_PUBLIC_HIBP_PROXY_URL ||
-    'http://api.haveibeenpwned.cert.dk'
+    'http://localhost:8000'
   ).replace(/\/$/, '');
   const apiKey = process.env.HIBP_API_KEY ?? '';
 

@@ -24,7 +24,7 @@ export default function WelcomePage() {
     try {
       const baseUrl = (
         process.env.NEXT_PUBLIC_HIBP_PROXY_URL ||
-        'http://api.haveibeenpwned.cert.dk'
+        'http://localhost:8000'
       ).replace(/\/$/, '');
       const res = await fetch(
         `${baseUrl}/api/v3/stealer-logs-domain/dtu.dk/`,
@@ -117,7 +117,7 @@ export default function WelcomePage() {
           <iframe
             src={
               process.env.NEXT_PUBLIC_HIBP_PROXY_URL ||
-              'http://api.haveibeenpwned.cert.dk/'
+              'http://localhost:8000/'
             }
             title="Backend API Preview"
             className="w-full min-h-full"
@@ -128,7 +128,7 @@ export default function WelcomePage() {
         <a
           href={
             process.env.NEXT_PUBLIC_HIBP_PROXY_URL ||
-            'http://api.haveibeenpwned.cert.dk/'
+            'http://localhost:8000/'
           }
           target="_blank"
           rel="noopener noreferrer"

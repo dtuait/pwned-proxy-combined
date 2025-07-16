@@ -47,7 +47,7 @@ export default function Header() {
         <Link
           href={
             process.env.NEXT_PUBLIC_HIBP_PROXY_URL ||
-            'http://api.haveibeenpwned.cert.dk/'
+            'http://localhost:8000/'
           }
           target="_blank"
           rel="noopener noreferrer"

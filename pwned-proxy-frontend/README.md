@@ -4,7 +4,7 @@
 
 Copy `.env.local.example` to `.env.local` and adjust `NEXT_PUBLIC_HIBP_PROXY_URL`
 if you wish to use a different API location. By default it points to
-`http://api.haveibeenpwned.cert.dk/`. This variable is read by the
+`http://localhost:8000/`. This variable is read by the
 start page and the header link so it also works when deployed with Coolify.
 
 ### Google Analytics
