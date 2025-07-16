@@ -59,7 +59,6 @@ def main() -> None:
         'POSTGRES_PASSWORD': '<long-secret-password>',
         'DJANGO_SUPERUSER_PASSWORD': '<long-secret-password>',
         'HIBP_API_KEY': '<dummy-hibp-key>',
-        'DEVCONTAINER_NGROK_AUTHTOKEN': '<long-ngrok-token>',
     }
 
     for key, placeholder in placeholders.items():
