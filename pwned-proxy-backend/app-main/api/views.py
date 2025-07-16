@@ -447,3 +447,12 @@ class SubscriptionStatusProxyView(LoggedAPIView):
             return Response({"detail": "No valid API key."}, status=401)
         resp = hibp_get("subscription/status")
         return make_response(resp)
+
+
+class GroupNamesView(LoggedAPIView):
+    """GET /api/v3/group-names"""
+
+    @swagger_auto_schema(auto_schema=None)
+    def get(self, request):
+        names = list(Group.objects.order_by("name").values_list("name", flat=True))
+        return Response(names, status=200)

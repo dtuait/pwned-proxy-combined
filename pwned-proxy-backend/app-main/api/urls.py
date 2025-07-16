@@ -16,6 +16,7 @@ from .views import (
     LatestBreachProxyView,
     DataClassesProxyView,
     SubscriptionStatusProxyView,
+    GroupNamesView,
 )
 
 urlpatterns = [
@@ -61,4 +62,5 @@ urlpatterns = [
         SubscriptionStatusProxyView.as_view(),
         name="subscription-status",
     ),
+    path("group-names", GroupNamesView.as_view(), name="group-names"),
 ]
