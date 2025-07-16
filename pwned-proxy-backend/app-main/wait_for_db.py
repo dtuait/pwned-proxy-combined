@@ -4,7 +4,7 @@ import psycopg2
 
 host = os.getenv('POSTGRES_HOST', 'db')
 port = int(os.getenv('POSTGRES_PORT', 5432))
-db = os.getenv('POSTGRES_DB', 'dev-db')
+db = os.getenv('POSTGRES_DB', 'production-db')
 user = os.getenv('POSTGRES_USER', 'postgres')
 password = os.getenv('POSTGRES_PASSWORD', '')
 

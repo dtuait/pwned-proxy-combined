@@ -33,7 +33,8 @@ git clone https://github.com/dtuait/pwned-proxy-combined
 ### 2. Prepare backend environment
 
 Generate the `.env` file by running `generate_env.sh` inside the backend
-directory. This creates `.env` with random values:
+directory. This creates `.env` with random values, including a secure
+PostgreSQL password for the production database:
 
 
 
@@ -52,7 +53,7 @@ $ cat ./pwned-proxy-combined/pwned-proxy-backend/.env
 # PostgreSQL configuration
 POSTGRES_HOST=db
 POSTGRES_PORT=5432
-POSTGRES_DB=dev-db
+POSTGRES_DB=production-db
 POSTGRES_USER=postgres
 POSTGRES_PASSWORD=ElxMBu0b5Ya9165uCmbEXQ
 
