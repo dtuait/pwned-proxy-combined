@@ -7,7 +7,7 @@ import yaml
 
 BASE_DIR = Path(__file__).resolve().parent
 EXAMPLE = BASE_DIR / '.env.example'
-COMPOSE = BASE_DIR / 'docker-compose-coolify.yaml'
+COMPOSE = BASE_DIR.parent / 'docker-compose.yaml'
 
 
 def parse_compose(path: Path) -> set[str]:
@@ -44,7 +44,7 @@ def main() -> None:
     missing = compose_required - example_envs.keys()
     if missing:
         print(
-            'Environment variable mismatch between docker-compose-coolify.yaml and .env.example',
+            'Environment variable mismatch between docker-compose.yaml and .env.example',
             file=sys.stderr,
         )
         print('Missing in .env.example:', ', '.join(sorted(missing)), file=sys.stderr)
