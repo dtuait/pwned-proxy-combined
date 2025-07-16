@@ -3,7 +3,7 @@ services:
     # ─── build the Django image ───────────────────────────────────────────
     build:
       context: .
-      dockerfile: .devcontainer/Dockerfile.prod
+      dockerfile: Dockerfile
 
     # ─── runtime configuration ────────────────────────────────────────────
     environment:

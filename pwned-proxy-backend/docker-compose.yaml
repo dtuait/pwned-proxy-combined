@@ -2,7 +2,7 @@ services:
   app:
     build:
       context: .
-      dockerfile: .devcontainer/Dockerfile.prod
+      dockerfile: Dockerfile
     environment:
       POSTGRES_DB: ${POSTGRES_DB:-db}
       POSTGRES_USER: ${POSTGRES_USER:-postgres}

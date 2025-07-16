@@ -2,7 +2,7 @@ services:
   backend:
     build:
       context: ./pwned-proxy-backend
-      dockerfile: .devcontainer/Dockerfile.prod
+      dockerfile: Dockerfile
     env_file:
       - ./pwned-proxy-backend/.env
     depends_on:

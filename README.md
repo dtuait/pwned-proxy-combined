@@ -31,8 +31,8 @@ git clone https://github.com/dtuait/pwned-proxy-combined
 
 ### 2. Prepare backend environment
 
-Generate the `.env` files by running `generate_env.sh` inside the backend
-directory. This creates `.env` and `.devcontainer/.env` with random values:
+Generate the `.env` file by running `generate_env.sh` inside the backend
+directory. This creates `.env` with random values:
 
 
 
