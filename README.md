@@ -11,9 +11,8 @@ had their own HaveIBeenPwned subscription, providing the same service for free.
 
 ### First time setup
 
-When the backend container starts for the first time it will apply migrations, create a superuser and, if `HIBP_API_KEY`
-was provided, import initial data. On subsequent starts the value of `HIBP_API_KEY` in `pwned-proxy-backend/.env` is
-used to update the stored key automatically. The credentials are printed in the backend logs.
+When the backend container starts for the first time it will apply migrations and create a superuser.
+The credentials are printed in the backend logs.
 
 You can access the frontend at [http://localhost:3000](http://localhost:3000) and the Django admin interface at
 [http://localhost:8000/admin/](http://localhost:8000/admin/).
@@ -62,7 +61,6 @@ DJANGO_SECRET_KEY=nm_9d0Wcm14CwG2e54bG15L0Op0RnBqj3KcKCFxUNBibSBrbANR2n6G41Ji4Lx
 # These can be left empty; startup scripts will handle them
 DJANGO_SUPERUSER_USERNAME=admin
 DJANGO_SUPERUSER_PASSWORD=c0mcj8OxwMBwnZE1nyTpEQ
-HIBP_API_KEY=
 SERVICE_FQDN_APP=api.domainthatyouown.com
 PWNED_PROXY_DOMAIN=api.domainthatyouown.com
 
@@ -82,7 +80,6 @@ cp .env.local.example .env.local
 nano .env.local
 NEXT_PUBLIC_HIBP_PROXY_URL=http://api.domainthatyouown.com/
 NEXT_PUBLIC_GA_MEASUREMENT_ID=<google_analytics_measurement_id> # add if you analytics
-HIBP_API_KEY=<REQUIRED>
 NEXT_PUBLIC_CONTACT_EMAIL=person@email.com
 
 ```

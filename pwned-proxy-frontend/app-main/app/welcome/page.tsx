@@ -5,7 +5,6 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 
-import BreachedAccount from '../components/breach/BreachedAccount';
 import { DashboardButton } from '../components/DashboardButton';
 import { CategoryCard } from "../components/CategoryCard";
 
@@ -42,16 +41,12 @@ export default function WelcomePage() {
     }
   }
 
-  const goToBreachChecker = () => {
-    router.push('/breach-checker');
-  };
 
   const categories = [
     {
       title: 'Email Checks',
       desc: 'Requires email + API key',
       tools: [
-        { label: 'Breached Account',    path: '/breach-checker' },
         { label: 'Paste Account',       path: '/paste-account' },
         { label: 'Stealer Logs (Email)',path: '/stealer-logs-email' },
         { label: 'Pwned Passwords',     path: '/pwned-passwords' },

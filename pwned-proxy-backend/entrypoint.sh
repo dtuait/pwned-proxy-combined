@@ -17,8 +17,6 @@ sudo install -d -m 0755 "$STATIC_ROOT" && sudo chown appuser:appuser "$STATIC_RO
 /usr/src/venvs/app-main/bin/python manage.py migrate --noinput
 /usr/src/venvs/app-main/bin/python manage.py collectstatic --noinput
 /usr/src/venvs/app-main/bin/python create_admin.py
-# Run one-time setup tasks if HIBP_API_KEY is configured
-/usr/src/venvs/app-main/bin/python manage.py initial_setup || true
 
 exec /usr/src/venvs/app-main/bin/gunicorn \
     pwned_proxy.wsgi:application \

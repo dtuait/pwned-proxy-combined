@@ -1,35 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
-
 export default function AboutPage() {
-  const [groups, setGroups] = useState<string[] | null>(null);
-  const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    const load = async () => {
-      try {
-        const res = await fetch("/api/group-names");
-        if (!res.ok) throw new Error(`Failed to load groups: ${res.status}`);
-        const data = await res.json();
-        if (!Array.isArray(data) || data.length === 0) {
-          throw new Error("No group list returned");
-        }
-        setGroups(data as string[]);
-      } catch (err) {
-        setError((err as Error).message);
-      }
-    };
-    load();
-  }, []);
-
-  if (error) {
-    return <div className="p-4 text-red-600">Error: {error}</div>;
-  }
-
-  if (!groups) {
-    return <div className="p-4">Loading…</div>;
-  }
 
   return (
     <div className="min-h-screen relative overflow-hidden">
@@ -52,11 +23,7 @@ export default function AboutPage() {
           to request access.
         </p>
         <h2 className="text-xl font-semibold mt-6">Subscribed Universities</h2>
-        <ul className="list-disc pl-5 text-left space-y-1">
-          {groups.map((g) => (
-            <li key={g}>{g}</li>
-          ))}
-        </ul>
+        <p className="text-gray-700">This information is currently unavailable.</p>
         {/* Download Postman collection from public/haveibeenpwned.deic.dk.postman_collection_v2.json */}
         <div className="mt-8 flex justify-center">
           <a
