@@ -456,4 +456,5 @@ class GroupNamesView(LoggedAPIView):
     def get(self, request):
         print("[backend] GroupNamesView reached")
         names = list(Group.objects.order_by("name").values_list("name", flat=True))
+        print("[backend] returning", names)
         return Response(names, status=200)

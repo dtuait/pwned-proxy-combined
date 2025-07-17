@@ -80,6 +80,10 @@ Make sure to create the necessary environment files:
 - `pwned-proxy-backend/.env` (created by `generate_env.sh`)
 - `pwned-proxy-frontend/app-main/.env.local`
 
+When using the devcontainer the backend and frontend share the same
+container. Set `HIBP_PROXY_INTERNAL_URL` in `.env.local` to
+`http://localhost:8000` so the frontend can reach the Django server.
+
 ## Development Workflow
 
 1. Start the devcontainer
