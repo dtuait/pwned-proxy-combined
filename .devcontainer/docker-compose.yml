@@ -12,6 +12,9 @@ services:
     environment:
       - PYTHONPATH=/usr/src/project
       - POSTGRES_HOST=dev-db
+      - POSTGRES_DB=dev-db
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
     depends_on:
       - dev-db
     networks:

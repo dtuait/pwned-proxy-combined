@@ -73,6 +73,9 @@ The PostgreSQL database is automatically started with the devcontainer and is ac
 - **Database**: `dev-db`
 - **Username**: `postgres`
 - **Password**: `postgres`
+  
+These credentials are exported automatically when the devcontainer starts so
+Django can connect without any extra configuration.
 
 ## Environment Files
 
