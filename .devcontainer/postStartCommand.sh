@@ -26,6 +26,11 @@ fi
 # Export backend environment variables so helper scripts can access them
 set -a
 source pwned-proxy-backend/.env
+# Use static credentials for the dev database
+POSTGRES_HOST=dev-db
+POSTGRES_DB=dev-db
+POSTGRES_USER=postgres
+POSTGRES_PASSWORD=postgres
 set +a
 
 # Apply migrations and create the default admin user
