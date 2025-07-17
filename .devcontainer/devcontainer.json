@@ -3,7 +3,7 @@
     "dockerComposeFile": "docker-compose.yml",
     "service": "devcontainer",
     "workspaceFolder": "/usr/src/project",
-    "remoteUser": "root",
+    "remoteUser": "devuser",
     "forwardPorts": [8000, 3000],
     "customizations": {
         "vscode": {
