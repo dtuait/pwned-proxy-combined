@@ -32,6 +32,7 @@ export async function GET() {
     }
 
     const data = JSON.parse(text);
+    console.log('[group-names] parsed data:', data);
     if (!Array.isArray(data)) {
       return NextResponse.json(
         { error: 'Invalid groups payload from backend' },
