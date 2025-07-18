@@ -2,10 +2,8 @@
 
 ## Purpose of the Tool
 
-Pwned Proxy replicates the official HIBP API endpoint signature. Customers only
-need to change the domain and HIBP key to use this service. It acts as a proxy
-that allows multiple universities to access their HIBP data exactly as if they
-had their own HaveIBeenPwned subscription, providing the same service for free.
+Imagine you are very big enterprise with a lot of domains and branches or imagine that you are a CERT/CSIRT for the National Research and Education Network (NREN) of a country, and you have a haveibeenpwned subscription for accessing the API (https://haveibeenpwned.com/Subscription). You have verified a lot of domains belonging to your enterprise or your constituents (universities in our example) and you now get notifications for all of your domains and send out the appropriate reports afterwards. While everyone is happy with this, there are some it-departments within your enterprise (or universities) that would like to utilize the haveibeenpwned API and use scripts to collect data and do stuff with it. The problem is, you do not want to hand out your API key to them, because then they would be able to see data that belong to other branches/departments/universities. So, this is where, this tool comes into play.
+It acts as a proxy API that allows multiple universities to access their HIBP data exactly as if they had their own HaveIBeenPwned subscription. Separate API keys are created for each branch/department/university and they can query only their own data.
 
 ## How to Get Started
 
