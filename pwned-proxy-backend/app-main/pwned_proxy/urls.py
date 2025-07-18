@@ -2,6 +2,7 @@ from django.contrib import admin
 from django.urls import path, include
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
+from django.conf import settings
 from rest_framework import permissions
 
 schema_view = get_schema_view(
@@ -12,6 +13,7 @@ schema_view = get_schema_view(
     ),
     public=True,
     permission_classes=(permissions.AllowAny,),
+    url=f"{'https' if not settings.DEBUG else 'http'}://{settings.PWNED_PROXY_DOMAIN}",
 )
 
 urlpatterns = [

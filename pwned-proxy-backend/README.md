@@ -125,6 +125,8 @@ server {
         proxy_pass http://localhost:8000;
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
+        # Tell Django the original scheme so Swagger links use HTTPS
+        proxy_set_header X-Forwarded-Proto https;
     }
 }
 ```
@@ -133,6 +135,16 @@ Use a tool like `certbot` to obtain TLS certificates and update the
 server block to listen on port `443` with SSL enabled. Once configured,
 requests to `https://example.com` will be forwarded to the Dockerized
 Django application.
+
+If you use **Apache** instead of Nginx, add a similar header inside your
+`VirtualHost` block:
+
+```apache
+RequestHeader set X-Forwarded-Proto "https"
+```
+
+The application relies on this header to detect that it's running behind
+HTTPS so Swagger links are generated with the correct scheme.
 
 ## Developing with VS Code
 
