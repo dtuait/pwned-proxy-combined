@@ -46,21 +46,21 @@ export default function AboutPage() {
       />
       <main className="relative z-10 max-w-3xl mx-auto px-4 py-16 text-center space-y-6">
         <p className="text-lg text-gray-800">
-          Contact
+          Contact&nbsp;
           <a
             href={`mailto:${process.env.NEXT_PUBLIC_CONTACT_EMAIL ?? 'itsecurity@dtu.dk'}`}
             className="underline text-blue-600 ml-1"
           >
             {process.env.NEXT_PUBLIC_CONTACT_EMAIL ?? 'itsecurity@dtu.dk'}
           </a>
-          to request access.
+          &nbsp;to request access.
         </p>
         <h2 className="text-xl font-semibold mt-6">Subscribed Universities</h2>
-        <ul className="list-disc pl-5 text-left space-y-1">
+        <ul className="text-center space-y-1">
           {groups.length > 0 ? (
             groups.map((g) => <li key={g}>{g}</li>)
           ) : (
-            <li className="list-none">No groups configured</li>
+            <li>No groups configured</li>
           )}
         </ul>
         {/* Download Postman collection from public/haveibeenpwned.deic.dk.postman_collection_v2.json */}

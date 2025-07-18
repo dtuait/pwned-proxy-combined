@@ -4,6 +4,11 @@
 
 ### In Development Container
 
+The container now runs as the non-root `devuser`. If your host account
+uses a different UID or GID you can override the build arguments
+`LOCAL_UID` and `LOCAL_GID` when building the devcontainer to ensure the
+mounted workspace remains writable.
+
 1. **Set up environment variables (optional):**
    The dev container automatically generates `pwned-proxy-backend/.env` on first
    start. Re-run `generate_env.sh` only if you want to regenerate the file.
@@ -73,6 +78,9 @@ The PostgreSQL database is automatically started with the devcontainer and is ac
 - **Database**: `dev-db`
 - **Username**: `postgres`
 - **Password**: `postgres`
+  
+These credentials are exported automatically when the devcontainer starts so
+Django can connect without any extra configuration.
 
 ## Environment Files
 
