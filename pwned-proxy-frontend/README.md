@@ -4,8 +4,10 @@
 
 Copy `.env.local.example` to `.env.local` and adjust `NEXT_PUBLIC_HIBP_PROXY_URL`
 if you wish to use a different API location. By default it points to
-`http://localhost:8000/`. This variable is read by the
-start page and the header link so it also works when deployed with Coolify.
+`http://localhost:8000/`. When deploying publicly over TLS update this to use
+`https://<your-domain>` so Swagger loads the API through HTTPS. This variable is
+read by the start page and the header link so it also works when deployed with
+Coolify.
 
 ### Google Analytics
 
