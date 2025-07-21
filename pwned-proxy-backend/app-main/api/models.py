@@ -41,9 +41,13 @@ class APIKey(models.Model):
 
       api_key_obj, raw_key = APIKey.create_api_key(
           group=group,
-          domain_list=domains
+          domain_list=domains,
+          name="Production key",
+          description="Used by scheduled playbooks",
       )
     """
+    name = models.CharField(max_length=255)
+    description = models.CharField(max_length=255, blank=True, null=True)
     group = models.ForeignKey(
         Group,
         on_delete=models.CASCADE,
@@ -56,9 +60,8 @@ class APIKey(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        # Show partial hash and how many domains
         domain_count = self.domains.count()
-        return f"APIKey {self.key[:8]}... ({domain_count} domains)"
+        return f"{self.name} ({self.key[:8]}..., {domain_count} domains)"
 
 
     def save(self, *args, **kwargs):
@@ -70,7 +73,14 @@ class APIKey(models.Model):
         super().save(*args, **kwargs)
 
     @classmethod
-    def create_api_key(cls, group: Group, domain_list=None):
+    def create_api_key(
+        cls,
+        group: Group,
+        domain_list=None,
+        *,
+        name: str | None = None,
+        description: str | None = None,
+    ):
         """
         Create an APIKey instance by:
           1) Generating a random raw key
@@ -80,6 +90,8 @@ class APIKey(models.Model):
 
         :param group: The Django Group that will own this key.
         :param domain_list: A list of Domain model instances (optional).
+        :param name: Display name for this API key. Defaults to "Key for <group>".
+        :param description: Optional description/notes for this key.
         :returns: (APIKey object, raw_key string)
         """
         if domain_list is None:
@@ -88,10 +100,15 @@ class APIKey(models.Model):
         # 1) Generate random raw key (UUID4 hex)
         raw_key = generate_api_key()
 
+        if name is None:
+            name = f"Key for {group.name}"
+
         # 2) Create the APIKey record storing the raw key
         new_key = cls.objects.create(
             group=group,
-            key=raw_key
+            key=raw_key,
+            name=name,
+            description=description,
         )
 
         # 4) Link M2M domains, if provided
