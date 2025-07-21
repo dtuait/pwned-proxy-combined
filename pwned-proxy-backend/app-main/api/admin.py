@@ -42,12 +42,10 @@ class APIKeyAdmin(admin.ModelAdmin):
             messages_list.append(f"{api_key.group or api_key.id}: {raw_key}")
 
         if messages_list:
-            joined = "<br>".join(messages_list)
-            self.message_user(
-                request,
-                format_html("Rotated keys:<br>{}", joined),
-                level=messages.SUCCESS,
-            )
+            self.message_user(request, "Rotated keys:", level=messages.SUCCESS)
+            for item in messages_list:
+                self.message_user(request, item, level=messages.SUCCESS)
+
         else:
             self.message_user(request, "No keys rotated.", level=messages.WARNING)
 
