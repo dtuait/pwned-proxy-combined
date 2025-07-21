@@ -1,10 +1,9 @@
 "use client";
 
 import React, { useState } from "react";
-import { signOut, useSession, signIn } from "next-auth/react";
-import { Shield, Search, AlertTriangle, CheckCircle } from "lucide-react";
+import { signOut } from "next-auth/react";
+import { AlertTriangle, CheckCircle } from "lucide-react";
 import FireworkAnimation from "../components/ui/FireworkAnimation";
-
 
 interface BreachData {
   Name: string;
@@ -13,6 +12,8 @@ interface BreachData {
   Domain?: string;
   PwnCount?: number;
   Description?: string;
+  DataClasses?: string[];
+  LogoPath?: string;
 }
 
 export default function HomePage() {
@@ -22,38 +23,17 @@ export default function HomePage() {
   const [searched, setSearched] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-
-
-  // Sign out handler
-  const handleSignOut = async () => {
-    await signOut({
-      callbackUrl: `https://${process.env.NEXT_PUBLIC_MY_DOMAIN}`,
-    });
-    window.location.href = `https://login.microsoftonline.com/${
-      process.env.NEXT_PUBLIC_AZURE_AD_TENANT_ID
-    }/oauth2/v2.0/logout?post_logout_redirect_uri=https://${
-      process.env.NEXT_PUBLIC_MY_DOMAIN
-    }`;
-  };
-
-  
-
-  // Email validation
   const validateEmail = (email: string): boolean => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
   };
 
-  // "Have I Been Pwned?" click handler
   const handleClick = async () => {
     const trimmedEmail = email.trim();
-    
-    // Reset previous results
     setError(null);
     setResults(null);
     setSearched(false);
 
-    // Validation
     if (!trimmedEmail) {
       setError("Please enter an email address!");
       return;
@@ -67,77 +47,31 @@ export default function HomePage() {
     setLoading(true);
 
     try {
-      console.log('=== DEBUG: Starting breach check ===');
-      console.log('Email:', trimmedEmail);
-
       const baseUrl = (process.env.NEXT_PUBLIC_HIBP_PROXY_URL ||
-        'http://localhost:8000').replace(/\/$/, '');
-      const apiUrl = `${baseUrl}/api/v3/breachedaccount/${encodeURIComponent(trimmedEmail)}?includeUnverified=true`;
-      
+        "http://localhost:8000").replace(/\/$/, "");
+
+      const apiUrl = `${baseUrl}/api/v3/breachedaccount/${encodeURIComponent(
+        trimmedEmail
+      )}?truncateResponse=false&includeUnverified=true`;
+
       const response = await fetch(apiUrl, {
-        method: 'GET',
-        headers: {
-          'accept': 'application/json',
-        },
+        method: "GET",
+        headers: { accept: "application/json" },
       });
 
-      console.log('=== DEBUG: Response received ===');
-      console.log('Status:', response.status);
-
-      // Handle 404 as "no breaches found"
       if (response.status === 404) {
-        console.log('No breaches found (404)');
         setResults([]);
         setSearched(true);
-        
-        // dynamically import so Next.js won't try to SSR this
-          import("canvas-confetti").then((mod) => {
-            const confetti = mod.default;
-
-            // one‐time burst in center‐top
-            confetti({
-              particleCount: 100,
-              spread: 70,
-              origin: { x: 0.5, y: 0.7 },
-              gravity: 1.2,
-              decay: 0.9,
-              ticks: 200,
-            });
-
-            // Left side burst (fires immediately)
-            confetti({
-              particleCount: 80,
-              spread: 60,
-              angle: 60, // Angle towards center-right
-              origin: { x: 0.1, y: 0.75 }, // Left side, slightly lower
-              gravity: 1.0,
-              decay: 0.92,
-              ticks: 180,
-              colors: ['#C7E333', '#A8CC2A', '#22C55E'],
-            });
-
-            // Right side burst (fires immediately)
-            confetti({
-              particleCount: 80,
-              spread: 60,
-              angle: 120, // Angle towards center-left
-              origin: { x: 0.9, y: 0.75 }, // Right side, slightly lower
-              gravity: 1.0,
-              decay: 0.92,
-              ticks: 180,
-              colors: ['#C7E333', '#A8CC2A', '#22C55E'],
-            });
-
-          }).catch((e) => {
-            console.error("Failed to load confetti module:", e);
-          });
-
+        import("canvas-confetti").then((mod) => {
+          const confetti = mod.default;
+          confetti({ particleCount: 100, spread: 70, origin: { x: 0.5, y: 0.7 }, gravity: 1.2, decay: 0.9, ticks: 200 });
+          confetti({ particleCount: 80, spread: 60, angle: 60, origin: { x: 0.1, y: 0.75 }, gravity: 1.0, decay: 0.92, ticks: 180, colors: ["#C7E333", "#A8CC2A", "#22C55E"] });
+          confetti({ particleCount: 80, spread: 60, angle: 120, origin: { x: 0.9, y: 0.75 }, gravity: 1.0, decay: 0.92, ticks: 180, colors: ["#C7E333", "#A8CC2A", "#22C55E"] });
+        });
         return;
       }
 
       const text = await response.text();
-      console.log('Response text:', text);
-
       if (!response.ok) {
         setError(`Error: ${response.status} - ${response.statusText}`);
         return;
@@ -146,159 +80,133 @@ export default function HomePage() {
       const data = JSON.parse(text);
       setResults(data || []);
       setSearched(true);
-
-      console.log('=== DEBUG: Success ===');
-      console.log('Breach count:', data ? data.length : 0);
-
     } catch (err) {
-      console.error('=== DEBUG: Error ===', err);
-      setError('An error occurred while checking for breaches. Please try again.');
+      setError("An error occurred while checking for breaches. Please try again.");
     } finally {
       setLoading(false);
     }
   };
 
-  // Handle Enter key press
   const handleKey = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter') {
-      handleClick();
-    }
+    if (e.key === "Enter") handleClick();
   };
-return (
-    <div className="min-h-screen relative overflow-hidden">
-      {/* 1) EXACT two-stop gradient to match your pic */}
-      <div
-        className="absolute inset-0"
-        style={{
-          background:
-            "linear-gradient(135deg, #E0F2FE 0%,rgb(182, 196, 155) 100%)",
-        }}
-      />
 
-      {/* 2) Sign-out button */}
-      {/* <button
-        onClick={handleSignOut}
-        className="absolute top-4 right-4 z-10 bg-white/80 text-green-700 px-4 py-2 rounded-lg shadow hover:bg-white"
-      >
-        Sign Out
-      </button> */}
+  const formatMonthYear = (dateStr: string) => {
+    return new Date(dateStr).toLocaleDateString("en-US", {
+      month: "short",
+      year: "numeric",
+    });
+  };
 
-       <main className="relative z-10 max-w-3xl mx-auto px-4 py-16 text-center">
-        {/* Hero */}
-        <div className="text-center mb-12">
-          <h1 className="text-5xl md:text-6xl font-bold mb-4">
+  return (
+    <div className="min-h-screen relative bg-gradient-to-br from-blue-100 to-lime-100">
+      <main className="relative z-10 max-w-4xl mx-auto px-4 py-16 text-center">
+        <h1 className="text-5xl font-bold mb-4">
           <span className="text-[#2563EB]">Have I </span>
           <span className="text-[#C7E333]">Been</span>
-          <span className="text-gray-600"> Pwned?</span>
+          <span className="text-gray-700"> Pwned?</span>
         </h1>
-          <p className="text-lg text-gray-800 mb-8">
-            Check if your email address has been compromised in a data breach.
-          </p>
+        <p className="text-gray-700 text-lg mb-6">
+          Check if your email address has been compromised in a data breach.
+        </p>
 
-          {/* Search bar */}
-          <div className="flex justify-center mb-4">
-            <input
-              type="email"
-              placeholder="Enter your email address"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              onKeyDown={handleKey}
-              disabled={loading}
-              className="w-full max-w-md p-4 rounded-l-lg border border-gray-300 focus:outline-none focus:border-green-500"
-            />
-            <button
-              onClick={handleClick}
-              disabled={loading}
-              className="bg-[#C7E333] hover:bg-[#A8CC2A] text-white px-6 font-semibold rounded-r-lg disabled:opacity-50"
-            >
-              {loading ? "Checking…" : "Check"}
-            </button>
-          </div>
-          <p className="text-sm text-gray-700">
-            Using this service is subject to our{" "}
-            <a href="#" className="underline text-green-700">
-              terms of use
-            </a>
-            .
-          </p>
+        <div className="flex justify-center max-w-xl mx-auto mb-6">
+          <input
+            type="email"
+            placeholder="Enter your email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            onKeyDown={handleKey}
+            disabled={loading}
+            className="flex-1 p-3 rounded-l-md border border-gray-300 focus:outline-none"
+          />
+          <button
+            onClick={handleClick}
+            disabled={loading}
+            className="bg-[#C7E333] hover:bg-[#A8CC2A] text-white px-6 rounded-r-md font-semibold"
+          >
+            {loading ? "Checking…" : "Check"}
+          </button>
         </div>
 
-        {/* Error message */}
-        {error && (
-          <div className="max-w-md mx-auto mb-6 text-center text-red-700">
-            {error}
-          </div>
-        )}
+        {error && <p className="text-red-600 mb-6">{error}</p>}
 
-        {/* Results */}
         {searched && results && (
-          <div className="mx-auto w-full px-4 md:px-0">
+          <div className="text-left mt-10">
             {results.length > 0 ? (
-              <div className="bg-green-50 rounded-2xl p-6 shadow-lg border-l-4 border-red-500 max-w-4xl mx-auto">
-                {/* Icon + heading */}
-                <div className="flex items-center mb-4">
-                  <AlertTriangle className="w-6 h-6 text-red-500 mr-2" />
-                  <h3 className="text-xl font-bold text-red-600">Oh no — pwned!</h3>
-                </div>
+              <>
 
-                {/* Breach count */}
-                <p className="text-red-500 mb-6">
-                  Found in {results.length} breach{results.length > 1 ? "es" : ""}.
-                </p>
-
-                {/* Breach list */}
-                <div className="space-y-3">
-                  {results.map((b, i) => (
-                    <div
-                      key={i}
-                      className="
-                        bg-white 
-                        rounded-md 
-                        p-4 
-                        border border-red-200
-                        hover:bg-red-100        /* light pink hover */
-                        transition-colors
-                      "
-                    >
-                      <h4 className="text-red-600 font-semibold text-lg">
-                        {b.Title || b.Name}
-                      </h4>
-                      {b.BreachDate && (
-                        <p className="text-gray-500 text-sm mt-1">
-                          Date: {new Date(b.BreachDate).toLocaleDateString()}
-                        </p>
-                      )}
-                    </div>
-                  ))}
-                </div>
-              </div>
-            ) : (
-              
-              <div className="relative">
-                {/* 1) Place your fireworks behind or above */}
-                {/* <FireworkAnimation /> */}
-
-                {/* 2) Your “Good news” card */}
-                <div className="bg-white/90 rounded-2xl p-6 shadow-lg border border-green-200 relative z-20">
-                  <div className="flex items-center justify-center  mb-4">
-                    <CheckCircle className="w-6 h-6 text-[#C7E333] mr-2" />
-                    <h2 className="text-2xl md:text-3xl font-bold text-center">
-                      <span className="text-[#C7E333]">Good news</span>
-                      <span className="text-gray-600"> — </span>
-                      <span className="text-[#C7E333]">no pwnage!</span>
-                    </h2>
-                   
+                <div className="bg-gray-50 rounded-xl p-6 border border-red-200 text-center max-w-2xl mx-auto mb-10">
+                  <div className="flex justify-center items-center gap-2 text-red-600 font-semibold text-lg">
+                    <AlertTriangle className="w-5 h-5" /> Oh no — pwned!
                   </div>
-                  <p className="text-gray-700 text-center">
-                    No breached accounts or pastes found.
+                  <p className="text-red-600 mt-2 font-mono">
+                    Found in {results.length} breach{results.length > 1 ? "es" : ""}
                   </p>
                 </div>
+
+                <div className="relative pl-4 md:pl-0">
+                  <div className="hidden md:block absolute left-1/2 transform -translate-x-1/2 w-1 bg-[#C7E333] h-full z-0"></div>
+
+                  {results
+                    .slice()
+                    .sort((a, b) => new Date(b.BreachDate!).getTime() - new Date(a.BreachDate!).getTime())
+                    .map((breach, index) => (
+                      <div
+                        key={index}
+                        className={`relative z-10 mb-12 md:flex md:items-start ${index % 2 === 0 ? "md:justify-start" : "md:justify-end"}`}
+                      >
+                        <div className="hidden md:flex absolute left-1/2 transform -translate-x-1/2 bg-[#C7E333] text-white text-sm font-bold py-2 px-4 rounded-full shadow">
+                          {formatMonthYear(breach.BreachDate!)}
+                        </div>
+
+                        <div className={`bg-white p-6 rounded-lg shadow-md w-full md:w-[46%] ${index % 2 === 0 ? "md:ml-0 md:mr-auto" : "md:ml-auto md:mr-0"}`}>
+                          
+                          <h3 className="text-xl font-semibold text-gray-800 mb-2">
+                            {breach.Title || breach.Name}
+                          </h3>
+                          <p className="text-sm text-gray-600 mb-1">
+                            <strong>Domain:</strong> {breach.Domain}
+                          </p>
+                          <p className="text-sm text-gray-600 mb-2">
+                            <strong>Date:</strong> {new Date(breach.BreachDate!).toLocaleDateString()}
+                          </p>
+
+
+                          {breach.PwnCount && (
+                            <p className="text-[#C7E333] text-sm font-medium">
+                              {breach.PwnCount.toLocaleString()} accounts affected
+                            </p>
+                          )}
+                          {breach.DataClasses?.length && (
+                            <div className="mt-2 flex flex-wrap gap-2">
+                              {breach.DataClasses.map((item, i) => (
+                                <span
+                                  key={i}
+                                  className="bg-[#C7E333]/10 text-[#C7E333] border border-[#C7E333] px-3 py-1 rounded-full text-xs"
+                                >
+                                  {item}
+                                </span>
+                              ))}
+                            </div>
+                          )}
+                          {breach.Description && (
+                            <p className="text-sm text-gray-700 mt-4" dangerouslySetInnerHTML={{ __html: breach.Description }} />
+                          )}
+                        </div>
+                      </div>
+                    ))}
+                </div>
+              </>
+            ) : (
+              <div className="text-center mt-10">
+                <CheckCircle className="w-6 h-6 text-green-500 mx-auto mb-2" />
+                <h3 className="text-xl font-semibold text-green-600">Good news — no pwnage!</h3>
+                <p className="text-gray-700">Your email has not been found in any known breaches.</p>
               </div>
             )}
           </div>
         )}
-
-        
       </main>
     </div>
   );
