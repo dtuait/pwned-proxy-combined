@@ -196,6 +196,8 @@ class CustomGroupAdmin(GroupAdmin):
         urls = super().get_urls()
         custom = [
             path('seed-groups/', self.admin_site.admin_view(self.seed_groups), name='seed_groups'),
+            path('export-groups/', self.admin_site.admin_view(self.export_groups_keys), name='export_groups_keys'),
+            path('import-groups/', self.admin_site.admin_view(self.import_groups_keys), name='import_groups_keys'),
         ]
         return custom + urls
 
@@ -221,8 +223,10 @@ class CustomGroupAdmin(GroupAdmin):
         # 2) Delete existing APIKeys for those groups
         APIKey.objects.filter(group__name__in=seed_group_names).delete()
 
-        # 3) Create new APIKeys, gather info
-        result_list = []
+        # 3) Create new APIKeys, gather info grouped per group
+        from collections import defaultdict
+        grouped = defaultdict(list)
+
         for item in SEED_DATA:
             group_name = item["group"]
             base_domain = item["domain"]
@@ -237,20 +241,80 @@ class CustomGroupAdmin(GroupAdmin):
             # Build a list of domain names
             domain_names = [d.name for d in matching_domains]
 
-            # Append to our JSON data
-            result_list.append({
-                "group_name": group_name,
+            grouped[group_name].append({
                 "raw_key": raw_key,
                 "domains": domain_names,
             })
+
+        result_list = [
+            {"group_name": name, "api_keys": keys} for name, keys in grouped.items()
+        ]
 
         # 4) Return a JSON response (as a downloadable file)
         import json
         from django.http import HttpResponse
 
         response = HttpResponse(
-            json.dumps(result_list, indent=2),  # pretty-print optional
+            json.dumps(result_list, indent=2),
             content_type='application/json'
         )
         response['Content-Disposition'] = 'attachment; filename="seeded_api_keys.json"'
         return response
+
+    def export_groups_keys(self, request):
+        """Return JSON describing all groups and their API keys."""
+        import json
+        from django.http import HttpResponse
+        data = []
+        for group in Group.objects.order_by('name'):
+            key_list = []
+            for api_key in group.api_keys.all():
+                key_list.append({
+                    "raw_key": api_key.key,
+                    "domains": list(api_key.domains.values_list('name', flat=True)),
+                })
+            data.append({"group_name": group.name, "api_keys": key_list})
+
+        response = HttpResponse(
+            json.dumps(data, indent=2),
+            content_type='application/json'
+        )
+        response['Content-Disposition'] = 'attachment; filename="exported_groups_api_keys.json"'
+        return response
+
+    def import_groups_keys(self, request):
+        """Upload JSON produced by export_groups_keys and recreate keys."""
+        from django import forms
+        from django.template.response import TemplateResponse
+        import json
+        from django.contrib import messages
+        from django.shortcuts import redirect
+
+        class UploadForm(forms.Form):
+            json_file = forms.FileField()
+
+        if request.method == 'POST':
+            form = UploadForm(request.POST, request.FILES)
+            if form.is_valid():
+                try:
+                    data = json.load(form.cleaned_data['json_file'])
+                except json.JSONDecodeError:
+                    messages.error(request, 'Invalid JSON file.')
+                    return redirect(request.path)
+
+                for entry in data:
+                    group, _ = Group.objects.get_or_create(name=entry.get('group_name'))
+                    APIKey.objects.filter(group=group).delete()
+                    for key in entry.get('api_keys', []):
+                        domains = list(Domain.objects.filter(name__in=key.get('domains', []) ))
+                        api_key = APIKey.objects.create(group=group, key=key.get('raw_key'))
+                        if domains:
+                            api_key.domains.set(domains)
+
+                messages.success(request, 'Groups and API keys imported.')
+                return redirect('..')
+        else:
+            form = UploadForm()
+
+        context = dict(self.admin_site.each_context(request), form=form)
+        return TemplateResponse(request, 'admin/auth/group/import_form.html', context)

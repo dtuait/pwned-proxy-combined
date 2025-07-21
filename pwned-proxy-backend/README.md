@@ -59,7 +59,7 @@ superuser credentials you provided.
 1. After logging into the Django admin, add your [Have I Been Pwned](https://haveibeenpwned.com/api) API key:
    - Navigate to **HIBP Keys** and create a new key with the value you received from HIBP.
 2. Go to **Domains** and click **Import from HIBP**. This populates the database with the latest domain data.
-3. Open **Groups** and use the **Seed Groups** action to generate API keys for each predefined group. The keys are downloaded as a JSON file.
+3. Open **Groups** and use the **Seed Groups** action to generate API keys for each predefined group. The keys are downloaded as a JSON file. The same page also lets you export or import the group/API key mapping at any time for backup.
 4. Finally, visit `http://localhost:8000/` to open the Swagger start page and try out the API using the generated keys.
 
 ## Running tests
