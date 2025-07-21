@@ -10,8 +10,8 @@ from .models import APIKey, Domain, generate_api_key, EndpointLog
 
 @admin.register(APIKey)
 class APIKeyAdmin(admin.ModelAdmin):
-    list_display = ('id', 'group', 'domain_list', 'key', 'created_at')
-    search_fields = ('key',)
+    list_display = ('id', 'name', 'group', 'domain_list', 'key', 'created_at')
+    search_fields = ('name', 'description', 'key')
     readonly_fields = ('created_at',)
     filter_horizontal = ('domains',)
     actions = ['rotate_api_keys']
@@ -228,7 +228,11 @@ class CustomGroupAdmin(GroupAdmin):
             base_domain = item["domain"]
 
             group, _created = Group.objects.get_or_create(name=group_name)
-            api_key_obj, raw_key = APIKey.create_api_key(group=group)
+            api_key_obj, raw_key = APIKey.create_api_key(
+                group=group,
+                name=f"Seed key for {group_name}",
+                description="Initial seed key",
+            )
 
             # find all matching domains
             matching_domains = Domain.objects.filter(name__endswith=base_domain)
