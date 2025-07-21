@@ -1,6 +1,10 @@
 import uuid
 from django.db import models
 from django.contrib.auth.models import Group
+from django.core.exceptions import ValidationError
+
+# Default length of generated API keys
+DEFAULT_API_KEY_LENGTH = len(uuid.uuid4().hex)
 
 
 def generate_api_key():
@@ -70,7 +74,14 @@ class APIKey(models.Model):
         """
         if not self.key:
             self.key = generate_api_key()
+        self.full_clean()
         super().save(*args, **kwargs)
+
+    def clean(self):
+        if self.key and len(self.key) < DEFAULT_API_KEY_LENGTH:
+            raise ValidationError(
+                f"API key must be at least {DEFAULT_API_KEY_LENGTH} characters long."
+            )
 
     @classmethod
     def create_api_key(
@@ -150,12 +161,16 @@ class HIBPKey(models.Model):
         # already exists. So we raise an error to block the save.
         if not self.pk and HIBPKey.objects.exists():
             raise ValidationError("Only one HIBPKey entry is allowed.")
+        if self.api_key and len(self.api_key) < DEFAULT_API_KEY_LENGTH:
+            raise ValidationError(
+                f"HIBP API key must be at least {DEFAULT_API_KEY_LENGTH} characters long."
+            )
 
     def save(self, *args, **kwargs):
         """
         Call self.clean() before actually saving.
         """
-        self.clean()
+        self.full_clean()
         super().save(*args, **kwargs)
         cache.delete("hibp_api_key")
 
