@@ -2,8 +2,9 @@
 
 from django.contrib import admin, messages
 from django.core.management import call_command
-from django.shortcuts import redirect
+from django.shortcuts import redirect, get_object_or_404
 from django.urls import path
+from django.utils.html import format_html
 
 from .models import APIKey, Domain, generate_api_key, hash_api_key, EndpointLog
 
@@ -13,6 +14,10 @@ class APIKeyAdmin(admin.ModelAdmin):
     search_fields = ('hashed_key',)
     readonly_fields = ('hashed_key', 'created_at')
     filter_horizontal = ('domains',)
+    actions = ['rotate_api_keys']
+
+    # Custom template to add "Rotate" button on change page
+    change_form_template = "admin/api/apikey/change_form.html"
 
     def domain_list(self, obj):
         return ", ".join(d.name for d in obj.domains.all())
@@ -26,6 +31,46 @@ class APIKeyAdmin(admin.ModelAdmin):
             self.message_user(request, f"Your new API key: {raw_key}", level=messages.SUCCESS)
         else:
             super().save_model(request, obj, form, change)
+
+    def rotate_api_keys(self, request, queryset):
+        """Admin action to rotate one or more API keys."""
+        messages_list = []
+        for api_key in queryset:
+            raw_key = generate_api_key()
+            api_key.hashed_key = hash_api_key(raw_key)
+            api_key.save()
+            messages_list.append(f"{api_key.group or api_key.id}: {raw_key}")
+
+        if messages_list:
+            joined = "<br>".join(messages_list)
+            self.message_user(
+                request,
+                format_html("Rotated keys:<br>{}", joined),
+                level=messages.SUCCESS,
+            )
+        else:
+            self.message_user(request, "No keys rotated.", level=messages.WARNING)
+
+    rotate_api_keys.short_description = "Rotate selected API keys"
+
+    def get_urls(self):
+        urls = super().get_urls()
+        custom_urls = [
+            path(
+                "<int:pk>/rotate/",
+                self.admin_site.admin_view(self.rotate_single_api_key),
+                name="api_apikey_rotate",
+            ),
+        ]
+        return custom_urls + urls
+
+    def rotate_single_api_key(self, request, pk):
+        api_key = get_object_or_404(APIKey, pk=pk)
+        raw_key = generate_api_key()
+        api_key.hashed_key = hash_api_key(raw_key)
+        api_key.save()
+        self.message_user(request, f"API key rotated. New key: {raw_key}", level=messages.SUCCESS)
+        return redirect("../")
 
 
 @admin.register(Domain)
