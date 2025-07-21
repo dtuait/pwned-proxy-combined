@@ -1,0 +1,11 @@
+{% extends "admin/base_site.html" %}
+{% load i18n %}
+
+{% block content %}
+<h1>{% trans "Import Groups and API Keys" %}</h1>
+<form method="post" enctype="multipart/form-data" style="margin-top: 1em;">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <input type="submit" class="default" value="{% trans 'Import' %}">
+</form>
+{% endblock %}
