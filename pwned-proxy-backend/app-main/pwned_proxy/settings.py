@@ -217,3 +217,9 @@ USE_X_FORWARDED_HOST = True
 # sets the X-Frame-Options header to 'DENY' which prevents embedding. Setting
 # it to 'ALLOWALL' removes the header so the site can be framed by any origin.
 X_FRAME_OPTIONS = 'ALLOWALL'
+
+# Hide login and authorize controls in the Swagger UI
+SWAGGER_SETTINGS = {
+    'USE_SESSION_AUTH': False,
+    'SECURITY_DEFINITIONS': None,
+}
