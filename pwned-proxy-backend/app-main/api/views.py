@@ -126,6 +126,22 @@ class BreachedAccountProxyView(LoggedAPIView):
                 required=True,
                 description="Email address, e.g. user@dtu.dk",
             ),
+
+            #  Optional parameters
+            openapi.Parameter(
+                name="truncateResponse",
+                in_=openapi.IN_QUERY,
+                type=openapi.TYPE_BOOLEAN,
+                required=False,
+                description="Set to false to return full breach details",
+            ),
+            openapi.Parameter(
+                name="includeUnverified",
+                in_=openapi.IN_QUERY,
+                type=openapi.TYPE_BOOLEAN,
+                required=False,
+                description="Include unverified breaches",
+            ),
         ],
         responses={200: "Success", 404: "No record"},
     )
@@ -137,9 +153,25 @@ class BreachedAccountProxyView(LoggedAPIView):
             account.encode("ascii")  # simple validation
         except UnicodeEncodeError:
             return Response({"detail": "Invalid email format."}, status=400)
+        
 
-        resp = hibp_get(f"breachedaccount/{requests.utils.requote_uri(account)}")
+
+     #  Forward only the allowed query params
+        query = {}
+        for param in ["truncateResponse", "includeUnverified"]:
+            if param in request.query_params:
+                query[param] = request.query_params[param]
+
+        path = f"breachedaccount/{requests.utils.requote_uri(account)}"
+        if query:
+            path += f"?{urlencode(query)}"
+
+        print("DEBUG final path to HIBP:", path)  # Optional: Debug log
+        resp = hibp_get(path)
         return make_response(resp)
+    
+        # resp = hibp_get(f"breachedaccount/{requests.utils.requote_uri(account)}")
+        # return make_response(resp)
 
 
 # ---------------------------------------------------------------------
