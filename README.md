@@ -93,4 +93,10 @@ then building the images:
 docker compose build && docker compose up -d
 ```
 
+All services now include a `restart: unless-stopped` policy in
+`docker-compose.yaml`. Docker automatically recreates them when the
+daemon restarts, for example after a server reboot. Ensure the Docker
+service itself is enabled with `sudo systemctl enable docker` so the
+stack starts on boot.
+
 
