@@ -53,7 +53,11 @@ class Command(BaseCommand):
                 group_name = item["group"]
                 base_domain = item["domain"]
                 group, _ = Group.objects.get_or_create(name=group_name)
-                api_key_obj, raw_key = APIKey.create_api_key(group=group)
+                api_key_obj, raw_key = APIKey.create_api_key(
+                    group=group,
+                    name=f"Seed key for {group_name}",
+                    description="Initial seed key",
+                )
                 matching = Domain.objects.filter(name__endswith=base_domain)
                 api_key_obj.domains.add(*matching)
                 results.append({"group": group_name, "api_key": raw_key})

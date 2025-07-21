@@ -10,6 +10,18 @@
       </a>
     </li>
 
+    <li style="list-style: none; margin-bottom: 30px;">
+      <a href="{% url 'admin:export_groups_keys' %}" class="button">
+        {% trans "Export Groups & API Keys" %}
+      </a>
+    </li>
+
+    <li style="list-style: none; margin-bottom: 30px;">
+      <a href="{% url 'admin:import_groups_keys' %}" class="button">
+        {% trans "Import Groups & API Keys" %}
+      </a>
+    </li>
+
     <script type="text/javascript">
       function confirmSeed() {
         if (confirm("All API keys will be overwritten. Do you want to proceed?")) {

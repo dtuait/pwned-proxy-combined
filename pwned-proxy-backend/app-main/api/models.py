@@ -1,7 +1,10 @@
 import uuid
-import hashlib
 from django.db import models
 from django.contrib.auth.models import Group
+from django.core.exceptions import ValidationError
+
+# Default length of generated API keys
+DEFAULT_API_KEY_LENGTH = len(uuid.uuid4().hex)
 
 
 def generate_api_key():
@@ -9,13 +12,6 @@ def generate_api_key():
     Returns a new, random UUID4 hex string.
     """
     return uuid.uuid4().hex
-
-
-def hash_api_key(raw_key: str):
-    """
-    Hash the raw key (e.g. using SHA256).
-    """
-    return hashlib.sha256(raw_key.encode("utf-8")).hexdigest()
 
 
 class Domain(models.Model):
@@ -39,7 +35,7 @@ class APIKey(models.Model):
     """
     Each API key:
       - Belongs to one Django Group.
-      - Has a hashed_key in the DB (raw key is never stored).
+      - Stores the raw key directly in the DB.
       - Can be associated with multiple domains via 'domains'.
 
     Example usage in the shell:
@@ -49,47 +45,64 @@ class APIKey(models.Model):
 
       api_key_obj, raw_key = APIKey.create_api_key(
           group=group,
-          domain_list=domains
+          domain_list=domains,
+          name="Production key",
+          description="Used by scheduled playbooks",
       )
     """
+    name = models.CharField(max_length=255)
+    description = models.CharField(max_length=255, blank=True, null=True)
     group = models.ForeignKey(
         Group,
         on_delete=models.CASCADE,
-        related_name='api_keys',
-        null=True,
-        blank=True
+        related_name='api_keys'
     )
     # Instead of a single "allowed_domain" CharField, now we allow many:
     domains = models.ManyToManyField(Domain, blank=True)
 
-    hashed_key = models.CharField(max_length=64, unique=True, null=True, blank=True)
+    key = models.CharField(max_length=64, unique=True, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        # Show partial hash and how many domains
         domain_count = self.domains.count()
-        return f"APIKey {self.hashed_key[:8]}... ({domain_count} domains)"
+        return f"{self.name} ({self.key[:8]}..., {domain_count} domains)"
 
 
     def save(self, *args, **kwargs):
         """
-        Automatically generate a random hash if there's no hashed_key.
-        Note: This won't show the raw key in the admin. The admin user only sees the hashed value.
+        Automatically generate a random key if none is provided.
         """
+        if not self.key:
+            self.key = generate_api_key()
+        self.full_clean()
         super().save(*args, **kwargs)
 
+    def clean(self):
+        if self.key and len(self.key) < DEFAULT_API_KEY_LENGTH:
+            raise ValidationError(
+                f"API key must be at least {DEFAULT_API_KEY_LENGTH} characters long."
+            )
+
     @classmethod
-    def create_api_key(cls, group: Group, domain_list=None):
+    def create_api_key(
+        cls,
+        group: Group,
+        domain_list=None,
+        *,
+        name: str | None = None,
+        description: str | None = None,
+    ):
         """
         Create an APIKey instance by:
           1) Generating a random raw key
-          2) Hashing the raw key
-          3) Creating the APIKey object
+          2) Creating the APIKey object
           4) Linking the specified 'domain_list' (list of Domain objs)
           5) Returning (api_key_obj, raw_key)
 
         :param group: The Django Group that will own this key.
         :param domain_list: A list of Domain model instances (optional).
+        :param name: Display name for this API key. Defaults to "Key for <group>".
+        :param description: Optional description/notes for this key.
         :returns: (APIKey object, raw_key string)
         """
         if domain_list is None:
@@ -98,13 +111,15 @@ class APIKey(models.Model):
         # 1) Generate random raw key (UUID4 hex)
         raw_key = generate_api_key()
 
-        # 2) Hash it
-        hashed = hash_api_key(raw_key)
+        if name is None:
+            name = f"Key for {group.name}"
 
-        # 3) Create the APIKey record
+        # 2) Create the APIKey record storing the raw key
         new_key = cls.objects.create(
             group=group,
-            hashed_key=hashed
+            key=raw_key,
+            name=name,
+            description=description,
         )
 
         # 4) Link M2M domains, if provided
@@ -146,12 +161,16 @@ class HIBPKey(models.Model):
         # already exists. So we raise an error to block the save.
         if not self.pk and HIBPKey.objects.exists():
             raise ValidationError("Only one HIBPKey entry is allowed.")
+        if self.api_key and len(self.api_key) < DEFAULT_API_KEY_LENGTH:
+            raise ValidationError(
+                f"HIBP API key must be at least {DEFAULT_API_KEY_LENGTH} characters long."
+            )
 
     def save(self, *args, **kwargs):
         """
         Call self.clean() before actually saving.
         """
-        self.clean()
+        self.full_clean()
         super().save(*args, **kwargs)
         cache.delete("hibp_api_key")
 
