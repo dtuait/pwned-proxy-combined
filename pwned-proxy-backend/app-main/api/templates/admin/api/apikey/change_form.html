@@ -1,0 +1,14 @@
+{% extends "admin/change_form.html" %}
+{% load i18n admin_urls %}
+
+{% block object-tools-items %}
+    {{ block.super }}
+    {% if change %}
+    <li>
+        <a href="{% url 'admin:api_apikey_rotate' original.pk %}" class="button"
+           onclick="return confirm('{% translate "The API key will be rotated and shown once. Continue?" %}');">
+            {% translate "Rotate API Key" %}
+        </a>
+    </li>
+    {% endif %}
+{% endblock %}
