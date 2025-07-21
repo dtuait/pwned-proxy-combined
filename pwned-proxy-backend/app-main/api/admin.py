@@ -6,13 +6,13 @@ from django.shortcuts import redirect, get_object_or_404
 from django.urls import path
 from django.utils.html import format_html
 
-from .models import APIKey, Domain, generate_api_key, hash_api_key, EndpointLog
+from .models import APIKey, Domain, generate_api_key, EndpointLog
 
 @admin.register(APIKey)
 class APIKeyAdmin(admin.ModelAdmin):
-    list_display = ('id', 'group', 'domain_list', 'hashed_key', 'created_at')
-    search_fields = ('hashed_key',)
-    readonly_fields = ('hashed_key', 'created_at')
+    list_display = ('id', 'group', 'domain_list', 'key', 'created_at')
+    search_fields = ('key',)
+    readonly_fields = ('created_at',)
     filter_horizontal = ('domains',)
     actions = ['rotate_api_keys']
 
@@ -24,11 +24,10 @@ class APIKeyAdmin(admin.ModelAdmin):
     domain_list.short_description = "Domains"
 
     def save_model(self, request, obj, form, change):
-        if not change:  # brand-new APIKey
-            raw_key = generate_api_key()
-            obj.hashed_key = hash_api_key(raw_key)
+        if not change and not obj.key:
+            obj.key = generate_api_key()
             super().save_model(request, obj, form, change)
-            self.message_user(request, f"Your new API key: {raw_key}", level=messages.SUCCESS)
+            self.message_user(request, f"Your new API key: {obj.key}", level=messages.SUCCESS)
         else:
             super().save_model(request, obj, form, change)
 
@@ -37,7 +36,7 @@ class APIKeyAdmin(admin.ModelAdmin):
         messages_list = []
         for api_key in queryset:
             raw_key = generate_api_key()
-            api_key.hashed_key = hash_api_key(raw_key)
+            api_key.key = raw_key
             api_key.save()
             messages_list.append(f"{api_key.group or api_key.id}: {raw_key}")
 
@@ -65,7 +64,7 @@ class APIKeyAdmin(admin.ModelAdmin):
     def rotate_single_api_key(self, request, pk):
         api_key = get_object_or_404(APIKey, pk=pk)
         raw_key = generate_api_key()
-        api_key.hashed_key = hash_api_key(raw_key)
+        api_key.key = raw_key
         api_key.save()
         self.message_user(request, f"API key rotated. New key: {raw_key}", level=messages.SUCCESS)
         return redirect("../")
@@ -136,7 +135,7 @@ from django.core.management import call_command
 from django.shortcuts import redirect
 from django.urls import path
 
-from .models import APIKey, Domain, generate_api_key, hash_api_key, HIBPKey
+from .models import APIKey, Domain, generate_api_key, HIBPKey
 
 @admin.register(HIBPKey)
 class HIBPKeyAdmin(admin.ModelAdmin):

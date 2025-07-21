@@ -1,5 +1,4 @@
 import uuid
-import hashlib
 from django.db import models
 from django.contrib.auth.models import Group
 
@@ -9,13 +8,6 @@ def generate_api_key():
     Returns a new, random UUID4 hex string.
     """
     return uuid.uuid4().hex
-
-
-def hash_api_key(raw_key: str):
-    """
-    Hash the raw key (e.g. using SHA256).
-    """
-    return hashlib.sha256(raw_key.encode("utf-8")).hexdigest()
 
 
 class Domain(models.Model):
@@ -39,7 +31,7 @@ class APIKey(models.Model):
     """
     Each API key:
       - Belongs to one Django Group.
-      - Has a hashed_key in the DB (raw key is never stored).
+      - Stores the raw key directly in the DB.
       - Can be associated with multiple domains via 'domains'.
 
     Example usage in the shell:
@@ -62,20 +54,21 @@ class APIKey(models.Model):
     # Instead of a single "allowed_domain" CharField, now we allow many:
     domains = models.ManyToManyField(Domain, blank=True)
 
-    hashed_key = models.CharField(max_length=64, unique=True, null=True, blank=True)
+    key = models.CharField(max_length=64, unique=True, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         # Show partial hash and how many domains
         domain_count = self.domains.count()
-        return f"APIKey {self.hashed_key[:8]}... ({domain_count} domains)"
+        return f"APIKey {self.key[:8]}... ({domain_count} domains)"
 
 
     def save(self, *args, **kwargs):
         """
-        Automatically generate a random hash if there's no hashed_key.
-        Note: This won't show the raw key in the admin. The admin user only sees the hashed value.
+        Automatically generate a random key if none is provided.
         """
+        if not self.key:
+            self.key = generate_api_key()
         super().save(*args, **kwargs)
 
     @classmethod
@@ -83,8 +76,7 @@ class APIKey(models.Model):
         """
         Create an APIKey instance by:
           1) Generating a random raw key
-          2) Hashing the raw key
-          3) Creating the APIKey object
+          2) Creating the APIKey object
           4) Linking the specified 'domain_list' (list of Domain objs)
           5) Returning (api_key_obj, raw_key)
 
@@ -98,13 +90,10 @@ class APIKey(models.Model):
         # 1) Generate random raw key (UUID4 hex)
         raw_key = generate_api_key()
 
-        # 2) Hash it
-        hashed = hash_api_key(raw_key)
-
-        # 3) Create the APIKey record
+        # 2) Create the APIKey record storing the raw key
         new_key = cls.objects.create(
             group=group,
-            hashed_key=hashed
+            key=raw_key
         )
 
         # 4) Link M2M domains, if provided
