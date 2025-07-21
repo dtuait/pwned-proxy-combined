@@ -47,9 +47,7 @@ class APIKey(models.Model):
     group = models.ForeignKey(
         Group,
         on_delete=models.CASCADE,
-        related_name='api_keys',
-        null=True,
-        blank=True
+        related_name='api_keys'
     )
     # Instead of a single "allowed_domain" CharField, now we allow many:
     domains = models.ManyToManyField(Domain, blank=True)
