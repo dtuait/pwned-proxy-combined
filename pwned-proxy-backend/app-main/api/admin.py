@@ -4,6 +4,7 @@ from django.contrib import admin, messages
 from django.core.management import call_command
 from django.shortcuts import redirect, get_object_or_404
 from django.urls import path
+from django.utils.html import format_html
 
 from .models import APIKey, Domain, generate_api_key, hash_api_key, EndpointLog
 
@@ -44,6 +45,7 @@ class APIKeyAdmin(admin.ModelAdmin):
             self.message_user(request, "Rotated keys:", level=messages.SUCCESS)
             for item in messages_list:
                 self.message_user(request, item, level=messages.SUCCESS)
+
         else:
             self.message_user(request, "No keys rotated.", level=messages.WARNING)
 
