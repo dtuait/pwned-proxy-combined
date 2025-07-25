@@ -156,11 +156,18 @@ export default function HomePage() {
                         key={index}
                         className={`relative z-10 mb-12 md:flex md:items-start ${index % 2 === 0 ? "md:justify-start" : "md:justify-end"}`}
                       >
-                        <div className="hidden md:flex absolute left-1/2 transform -translate-x-1/2 bg-[#C7E333] text-white text-sm font-bold py-2 px-4 rounded-full shadow">
-                          {formatMonthYear(breach.BreachDate!)}
+                        <div className="hidden md:flex absolute left-1/2 transform -translate-x-1/2 w-20 h-20 bg-[#C7E333] text-white text-sm font-bold rounded-full shadow items-center justify-center z-20">
+                          <div className="text-center">
+                            <div className="text-sm font-bold leading-tight">
+                              {new Date(breach.BreachDate!).toLocaleDateString('en-US', { month: 'short' })}
+                            </div>
+                            <div className="text-sm font-bold">
+                              {new Date(breach.BreachDate!).getFullYear()}
+                            </div>
+                          </div>
                         </div>
 
-                        <div className={`bg-white p-6 rounded-lg shadow-md w-full md:w-[46%] ${index % 2 === 0 ? "md:ml-0 md:mr-auto" : "md:ml-auto md:mr-0"}`}>
+                        <div className={`bg-white p-6 rounded-lg shadow-md w-full md:w-[43%] ${index % 2 === 0 ? "md:ml-0 md:mr-auto" : "md:ml-auto md:mr-0"}`}>
                           
                           <h3 className="text-xl font-semibold text-gray-800 mb-2">
                             {breach.Title || breach.Name}
