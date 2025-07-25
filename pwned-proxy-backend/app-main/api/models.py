@@ -1,10 +1,13 @@
 import uuid
+import hashlib
 from django.db import models
 from django.contrib.auth.models import Group
 from django.core.exceptions import ValidationError
 
 # Default length of generated API keys
 DEFAULT_API_KEY_LENGTH = len(uuid.uuid4().hex)
+# Length of SHA256 hex digests stored in ``APIKey.key``
+KEY_HASH_LENGTH = 64
 
 
 def generate_api_key():
@@ -12,6 +15,11 @@ def generate_api_key():
     Returns a new, random UUID4 hex string.
     """
     return uuid.uuid4().hex
+
+
+def hash_api_key(raw_key: str) -> str:
+    """Return the SHA256 hex digest of ``raw_key``."""
+    return hashlib.sha256(raw_key.encode()).hexdigest()
 
 
 class Domain(models.Model):
@@ -35,7 +43,7 @@ class APIKey(models.Model):
     """
     Each API key:
       - Belongs to one Django Group.
-      - Stores the raw key directly in the DB.
+      - Stores **only a SHA256 hash** of the raw key in the DB.
       - Can be associated with multiple domains via 'domains'.
 
     Example usage in the shell:
@@ -60,6 +68,7 @@ class APIKey(models.Model):
     # Instead of a single "allowed_domain" CharField, now we allow many:
     domains = models.ManyToManyField(Domain, blank=True)
 
+    # Stores SHA256 hash of the raw API key
     key = models.CharField(max_length=64, unique=True, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
@@ -73,14 +82,19 @@ class APIKey(models.Model):
         Automatically generate a random key if none is provided.
         """
         if not self.key:
-            self.key = generate_api_key()
+            # No key set -> generate a new raw key and hash it
+            raw = generate_api_key()
+            self.key = hash_api_key(raw)
+        elif len(self.key) != KEY_HASH_LENGTH:
+            # Assume a raw key was assigned directly and hash it
+            self.key = hash_api_key(self.key)
         self.full_clean()
         super().save(*args, **kwargs)
 
     def clean(self):
-        if self.key and len(self.key) < DEFAULT_API_KEY_LENGTH:
+        if self.key and len(self.key) != KEY_HASH_LENGTH:
             raise ValidationError(
-                f"API key must be at least {DEFAULT_API_KEY_LENGTH} characters long."
+                f"API key must be a {KEY_HASH_LENGTH}-character SHA256 hex digest."
             )
 
     @classmethod
@@ -110,14 +124,15 @@ class APIKey(models.Model):
 
         # 1) Generate random raw key (UUID4 hex)
         raw_key = generate_api_key()
+        hashed = hash_api_key(raw_key)
 
         if name is None:
             name = f"Key for {group.name}"
 
-        # 2) Create the APIKey record storing the raw key
+        # 2) Create the APIKey record storing the hashed key
         new_key = cls.objects.create(
             group=group,
-            key=raw_key,
+            key=hashed,
             name=name,
             description=description,
         )

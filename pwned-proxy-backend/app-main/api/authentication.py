@@ -9,7 +9,7 @@ from django.contrib.auth.models import AnonymousUser
 from rest_framework.authentication import BaseAuthentication
 from rest_framework.exceptions import AuthenticationFailed
 
-from .models import APIKey
+from .models import APIKey, hash_api_key
 
 User = get_user_model()
 
@@ -25,8 +25,9 @@ class APIKeyAuthentication(BaseAuthentication):
         if not raw_key:
             return None  # No API key => DRF tries next auth class
 
+        hashed = hash_api_key(raw_key)
         try:
-            api_key = APIKey.objects.get(key=raw_key)
+            api_key = APIKey.objects.get(key=hashed)
         except APIKey.DoesNotExist:
             raise AuthenticationFailed("Invalid API Key")
 
