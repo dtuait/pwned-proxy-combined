@@ -296,30 +296,72 @@ class CustomGroupAdmin(GroupAdmin):
         from django.shortcuts import redirect
 
         class UploadForm(forms.Form):
-            json_file = forms.FileField()
+            json_file = forms.FileField(required=False)
+            json_data = forms.CharField(widget=forms.HiddenInput, required=False)
+            confirm = forms.BooleanField(
+                required=False,
+                label="Overwrite existing groups and keys",
+            )
 
         if request.method == 'POST':
             form = UploadForm(request.POST, request.FILES)
             if form.is_valid():
+                if form.cleaned_data.get("json_file"):
+                    json_str = form.cleaned_data["json_file"].read().decode()
+                else:
+                    json_str = form.cleaned_data.get("json_data", "")
+
                 try:
-                    data = json.load(form.cleaned_data['json_file'])
+                    data = json.loads(json_str)
                 except json.JSONDecodeError:
-                    messages.error(request, 'Invalid JSON file.')
+                    messages.error(request, "Invalid JSON file.")
                     return redirect(request.path)
 
+                # Check for existing groups/API keys
+                existing = [
+                    entry.get("group_name")
+                    for entry in data
+                    if Group.objects.filter(name=entry.get("group_name")).exists()
+                    or APIKey.objects.filter(group__name=entry.get("group_name")).exists()
+                ]
+
+                if existing and not form.cleaned_data.get("confirm"):
+                    warn_form = UploadForm(initial={
+                        "json_data": json_str,
+                        "confirm": True,
+                    })
+                    context = dict(
+                        self.admin_site.each_context(request),
+                        form=warn_form,
+                        conflicts=existing,
+                        needs_confirm=True,
+                    )
+                    return TemplateResponse(
+                        request, "admin/auth/group/import_form.html", context
+                    )
+
                 for entry in data:
-                    group, _ = Group.objects.get_or_create(name=entry.get('group_name'))
+                    group, _ = Group.objects.get_or_create(name=entry.get("group_name"))
+                    # Overwrite any existing keys for this group
                     APIKey.objects.filter(group=group).delete()
-                    for key in entry.get('api_keys', []):
-                        domains = list(Domain.objects.filter(name__in=key.get('domains', []) ))
-                        api_key = APIKey.objects.create(group=group, key=key.get('hashed_key'))
+                    for idx, key in enumerate(entry.get("api_keys", []), start=1):
+                        domains = list(
+                            Domain.objects.filter(name__in=key.get("domains", []))
+                        )
+                        api_key = APIKey.objects.create(
+                            group=group,
+                            key=key.get("hashed_key"),
+                            name=f"Imported key {idx}",
+                        )
                         if domains:
                             api_key.domains.set(domains)
 
-                messages.success(request, 'Groups and API keys imported.')
-                return redirect('..')
+                messages.success(request, "Groups and API keys imported.")
+                return redirect("..")
         else:
             form = UploadForm()
 
         context = dict(self.admin_site.each_context(request), form=form)
-        return TemplateResponse(request, 'admin/auth/group/import_form.html', context)
+        return TemplateResponse(
+            request, "admin/auth/group/import_form.html", context
+        )

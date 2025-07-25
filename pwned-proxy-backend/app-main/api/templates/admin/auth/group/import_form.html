@@ -3,9 +3,17 @@
 
 {% block content %}
 <h1>{% trans "Import Groups and API Keys" %}</h1>
+{% if conflicts %}
+  <div class="errors" style="margin-bottom:1em;">
+    <p>{% trans "The following groups already exist and will be overwritten:" %}</p>
+    <ul>
+      {% for name in conflicts %}<li>{{ name }}</li>{% endfor %}
+    </ul>
+  </div>
+{% endif %}
 <form method="post" enctype="multipart/form-data" style="margin-top: 1em;">
   {% csrf_token %}
   {{ form.as_p }}
-  <input type="submit" class="default" value="{% trans 'Import' %}">
+  <input type="submit" class="default" value="{% if needs_confirm %}{% trans 'Confirm Import' %}{% else %}{% trans 'Import' %}{% endif %}">
 </form>
 {% endblock %}
